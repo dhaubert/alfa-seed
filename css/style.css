@@ -1,0 +1,68 @@
+@font-face {
+    font-family: "poetsenone";
+    src: url('../css/font-awesome/fonts/PoetsenOne-Regular.ttf') format('truetype');
+}
+body{
+    font-family: "poetsenone";
+    background-color: #F0F0F0;
+    background: url(../images/gray_sand.png);
+    color: #FFF;
+}
+h1 .h1{
+    font-size: 100px;
+}
+a{
+    color: #FFFFFF;
+    cursor: pointer;
+}
+a:hover{
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 600;
+    
+}
+.text-logo{
+    font-size: 100px;
+
+}
+.jumbotron{
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #308E4B;
+    text-shadow: 2px 2px 0 #1D9D74, 5px 6px 0 rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0px 2px 4px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 2px 4px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 2px 4px 0px rgba(50, 50, 50, 0.75);
+}
+.footer{
+    /*text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.15), 5px 6px 0 rgba(255, 255, 255, 0.1);*/
+    text-shadow: 2px 1px 0 rgba(255, 255, 255, 0.8);
+    text-align: center;
+    color: #308E4B;
+}
+.jumbotron .text{
+    font-size: 50px;
+}
+.service{
+    margin-bottom: 40px;
+}
+i.fa-large{
+    font-size: 90px;
+    margin: 0;
+    padding: 0;
+}
+.menu{
+    height: 45px;
+    display: none;
+    -webkit-box-shadow: 0px 2px 4px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 2px 4px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 2px 4px 0px rgba(50, 50, 50, 0.75);
+    background-color: #308E4B;
+    color: #FFFFFF;
+    border: none;
+}
+.navbar{
+   color: #FFFFFF; 
+}
+
+
