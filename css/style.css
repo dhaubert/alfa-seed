@@ -6,7 +6,64 @@ body{
     font-family: "poetsenone";
     background-color: #F0F0F0;
     background: url(../images/gray_sand.png);
-    color: #FFF;
+    color: #FFFFFF;
+}
+.container{
+    width: 100%;
+}
+*::-moz-selection {
+    background:#308E4B;  /*---Cor de fundo--*/
+    color: #FFFFFF;   /*--cor da fonte--*/
+}
+*::selection {
+    background:#308E4B;/*---Cor de fundo--*/
+    color: #FFFFFF;  /*--cor da fonte--*/
+}
+select::selection{
+    background:#308E4B;/*---Cor de fundo--*/
+    color: #FFFFFF;  /*--cor da fonte--*/
+}
+option:hover{
+     background:#1DC64D;/*---Cor de fundo--*/
+     color: #FFFFFF;  /*--cor da fonte--*/
+}
+option:selected{
+     background:#308E4B;/*---Cor de fundo--*/
+     color: #FFFFFF;  /*--cor da fonte--*/
+}
+.form-control{
+/*    width: auto;*/
+}
+.ui-datepicker-inline{
+    width: 100%;
+}
+legend { 
+    margin: 15px 0 0 0;
+    /*margin-top: 15px;*/
+    width: auto;
+    border-bottom: none;
+    font-size: 1.8em; 
+    text-transform: uppercase; 
+    padding: 0 0.5em; 
+    color: #FFFFFF; 
+    display: block;
+    -webkit-padding-start: 2px;
+    -webkit-padding-end: 2px;
+}
+fieldset {
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 1em; 
+}
+fieldset p{
+    margin: 0px;
+}
+option, select{
+    color: #3C3C3C;
+    display: block;
 }
 h1 .h1{
     font-size: 100px;
@@ -19,7 +76,7 @@ a:hover{
     color: #FFFFFF;
     text-decoration: none;
     font-weight: 600;
-    
+
 }
 .text-logo{
     font-size: 100px;
@@ -62,7 +119,13 @@ i.fa-large{
     border: none;
 }
 .navbar{
-   color: #FFFFFF; 
+    color: #FFFFFF; 
+}
+input.active {
+    border: 1px inset #308E4B;
+}
+select.form-control{
+    height: 260px;
 }
 
 
