@@ -11,6 +11,7 @@ body{
 .container{
     width: 100%;
 }
+
 *::-moz-selection {
     background:#308E4B;  /*---Cor de fundo--*/
     color: #FFFFFF;   /*--cor da fonte--*/
@@ -24,15 +25,15 @@ select::selection{
     color: #FFFFFF;  /*--cor da fonte--*/
 }
 option:hover{
-     background:#1DC64D;/*---Cor de fundo--*/
-     color: #FFFFFF;  /*--cor da fonte--*/
+    background:#1DC64D;/*---Cor de fundo--*/
+    color: #FFFFFF;  /*--cor da fonte--*/
 }
 option:selected{
-     background:#308E4B;/*---Cor de fundo--*/
-     color: #FFFFFF;  /*--cor da fonte--*/
+    background:#308E4B;/*---Cor de fundo--*/
+    color: #FFFFFF;  /*--cor da fonte--*/
 }
 .form-control{
-/*    width: auto;*/
+    /*    width: auto;*/
 }
 .ui-datepicker-inline{
     width: 100%;
@@ -109,8 +110,8 @@ i.fa-large{
     padding: 0;
 }
 .menu{
-    height: 45px;
-    display: none;
+    height: 40px;
+    /*display: none;*/
     -webkit-box-shadow: 0px 2px 4px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 2px 4px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         0px 2px 4px 0px rgba(50, 50, 50, 0.75);
@@ -127,5 +128,32 @@ input.active {
 select.form-control{
     height: 260px;
 }
-
+#map_canvas{
+    height: 260px;
+    display: static;
+    background-color: #308E4B;
+}
+.infoBox { 
+    color: #000000;
+    background-color: #FFF; 
+    width: 300px; 
+    font-size: 14px; 
+    border: 2px solid #3fa7d8; 
+    border-radius: 3px; 
+    margin-top: 10px; 
+}
+.infoBox p { 
+    padding: 0 15px 
+}
+.infoBox:before { 
+    border-left: 10px solid transparent; 
+    border-right: 10px solid transparent; 
+    border-bottom: 10px solid #308E4B; 
+    top: -10px; 
+    content: ""; 
+    height: 0; 
+    position: absolute; 
+    width: 0; 
+    left: 138px;
+}
 
