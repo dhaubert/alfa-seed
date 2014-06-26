@@ -58,13 +58,13 @@ $main = new principal('mapa');
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class='active' id="configuracao" >
-                            <a href="../configuracao"><i class="fa fa-gear"></i> Configuração</a>
+                            <a href="../configuracao"><i class="fa fa-gear"></i> <?php echo _('Configuração')?></a>
                         </li>
                         <li id="resultados" >
-                            <a href="../resultados"><i class="fa fa-tint"></i> Resultados</a>
+                            <a href="../resultados"><i class="fa fa-tint"></i> <?php echo _('Resultados')?></a>
                         </li>
                         <li id="simulacoes" >
-                            <a href="../simualacoes"><i class="fa fa-bar-chart-o"></i> Simulações</a>
+                            <a href="../simualacoes"><i class="fa fa-bar-chart-o"></i> <?php echo _('Simulações')?></a>
                         </li>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -110,7 +110,7 @@ $main = new principal('mapa');
                                                                             '<?php echo $estacao['latitude']; ?>',
                                                                             '<?php echo $estacao['longitude']; ?>',
                                                                             '<?php echo $estacao['altitude']; ?>');">
-                                                        <?php echo utf8_encode($estacao['municipio']); ?>
+                                                        <?php echo $estacao['municipio']; ?>
                                             </option>
                                             <?php
                                         }
@@ -119,7 +119,7 @@ $main = new principal('mapa');
                                 </div>
                                 <div class="col-lg-4">
                                     <!--<div id="mapa" style="width:100%; height:260px; background-color: #308E4B">Mapa</div>-->
-                                    <div id="map_canvas" >Mapa</div>
+                                    <div id="map_canvas" ><?php echo _('Mapa')?></div>
                                 </div>
                                 <div class="col-lg-4 center-block">
                                     <div class="input-group has-success">
@@ -137,7 +137,7 @@ $main = new principal('mapa');
                                 <div id="clima_csv" class="row" style="display:none">
                                     <div class="col-lg-6">
                                         <div id="fileuploader">
-                                            Selecionar arquivo .csv
+                                            <?php echo _('Selecionar arquivo .csv')?>
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@ $main = new principal('mapa');
                         <div class="container">
                             <div class="row">
                                 <div class="cols-lg-12 center-block" style="margin-top:10px">
-                                    <input type="button" class="btn btn-success" onclick="salvar_clima()" value="<?php echo _("Salvar"); ?>">
+                                    <input type="button" class="btn btn-success" onclick="salvar_clima()" value="<?php echo _("Salvar Clima"); ?>">
                                 </div>
                             </div>
                         </div>
@@ -159,7 +159,7 @@ $main = new principal('mapa');
                 <div class="col-lg-12">
                     <fieldset>
                         <legend>
-                            <i class="fa fa-pagelines"></i> Cultura
+                            <i class="fa fa-pagelines"></i> <?php echo _("Cultura"); ?>
                         </legend>
                         <!--                <div class="container">
                                             <div class="row">
@@ -172,19 +172,16 @@ $main = new principal('mapa');
                                                 <div class="col-lg-9" >
                                                     <div id="loading" style="display: none">
                                                         <i class="fa fa-spinner" id="spinner" style="font-size: 22px; color: #308E4B;"></i>
-                        <?php echo '&nbsp;' . _("Obtendo dados..."); ?>
                                                     </div>
                                                     <div id="mensagem_clima">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>-->
-                        <hr />
                         <div class="container">
                             <div id="clima_inmet" class="row">
                                 <div class="col-lg-4">
-
-                                    <select multiple id="estacoes" name="estacoes" class="form-control" >
+                                    <select multiple id="culturas" name="culturas" class="form-control" >
                                         <?php
                                         $culturas = $main->get_culturas();
                                         foreach ($culturas as $cultura) {
@@ -208,20 +205,20 @@ $main = new principal('mapa');
                                         ?>
                                     </select>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-8">
                                     <div class="table-responsive">
                                         <table class="table table-condensed">
                                             <thead>
                                                 <tr>
-                                                    <th>Kc inicial</th>
-                                                    <th>Kc médio</th>
-                                                    <th>Kc final</th>
-                                                    <th>Estágio inicial (GDA)</th>
-                                                    <th>Estágio de crescimento (GDA)</th>
-                                                    <th>Estágio intermediário (GDA)</th>
-                                                    <th>Estágio final (GDA)</th>
-                                                    <th>Temperatura base (Cº)</th>
-                                                    <th>Temperatura superior (Cº)</th>
+                                                    <th><?php echo _('Kc inicial')?></th>
+                                                    <th><?php echo _('Kc médio')?></th>
+                                                    <th><?php echo _('Kc final')?></th>
+                                                    <th><?php echo _('Estágio inicial')?> <?php echo _('(GDA)')?></th>
+                                                    <th><?php echo _('Estágio de crescimento')?> <?php echo _('(GDA)')?></th>
+                                                    <th><?php echo _('Estágio intermediário')?> <?php echo _('(GDA)')?></th>
+                                                    <th><?php echo _('Estágio final')?> <?php echo _('(GDA)')?></th>
+                                                    <th><?php echo _('Temperatura base')?> <?php echo _('(Cº)')?></th>
+                                                    <th><?php echo _('Temperatura superior')?> <?php echo _('(Cº)')?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -246,7 +243,7 @@ $main = new principal('mapa');
                         <div class="container">
                             <div class="row">
                                 <div class="cols-lg-12 center-block" style="margin-top:10px">
-                                    <input type="button" class="btn btn-success" onclick="salvar_clima()" value="<?php echo _("Salvar"); ?>">
+                                    <input type="button" class="btn btn-success" onclick="salvar_cultura()" value="<?php echo _("Salvar"); ?>">
                                 </div>
                             </div>
                         </div>
@@ -257,16 +254,16 @@ $main = new principal('mapa');
         </div>
         <script>
                             $(function() {
-                            initialize();
+                                    initialize();
                                     carregarPontos();
-                                    $("#fileuploader").uploadFile({
-                            url: "configuracao.php",
-                                    fileName: "importar",
-                                    maxFileSize: "2MB",
-                                    maxFileCount: 1,
-                                    allowedTypes: "csv",
-                                    showFileCounter: false
-                            });
+                            $("#fileuploader").uploadFile({
+                                url: "configuracao.php",
+                                        fileName: "importar",
+                                        maxFileSize: "2MB",
+                                        maxFileCount: 1,
+                                        allowedTypes: "csv",
+                                        showFileCounter: false
+                                });
                                     $("#div_datepicker").datepicker({
                             onSelect: function(dateText, inst) {
                             $("#data_plantio").val(dateText);

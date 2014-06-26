@@ -1,19 +1,18 @@
 $(function() {
-//    initialize();
 
 });
-function gerenciador_paginas(url) {
-    $.ajax({
-        type: 'GET',
-        url: './' + url
-    }).done(function(retorno) {
-        $('#main').html("");
-        $('#main').html(retorno);
-    });
-}
-function busca_pagina(alias) {
-    gerenciador_paginas(alias);
-}
+//function gerenciador_paginas(url) {
+//    $.ajax({
+//        type: 'GET',
+//        url: './' + url
+//    }).done(function(retorno) {
+//        $('#main').html("");
+//        $('#main').html(retorno);
+//    });
+//}
+//function busca_pagina(alias) {
+//    gerenciador_paginas(alias);
+//}
 function enviar_arquivo() {
     alert('ajax');
 //      var formData = new FormData($('#clima'));
@@ -112,7 +111,6 @@ function atualiza_mapa(estacao_id) {
     }).done(function(retorno) {
 //        initialize();
         carregarPontos();
-//        carregarPontos();
     });
 }
 function atualiza_tabela(kc_ini, kc_mid, kc_end, gd_ini, gd_mid, gd_dev, gd_late, tbase, tupper){
