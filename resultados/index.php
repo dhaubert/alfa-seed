@@ -1,28 +1,13 @@
 <?php
 include_once('C:/xampp/htdocs/Alfaseed/controller/principal.php');
-//FAZER GRAFICO DE BARRAS E PONTOS (X = TEMPERATURA E Y É UMIDADE)
-//FAZER GRAFICO DE CHUVA PARA AS DATAS
-//FAZER GRAFICO PARA ETC E GRAUS DIA
-//Exibir tabela com todos os dados
-//$main = new principal();
-//$estacao_id = $_POST['resultados_estacao'];
-//$cultura_id = $_POST['resultados_cultura'];
-//$cultura = $main->get_culturas($cultura_id);
-//$estacao = $main->get_estacoes($estacao_id);
-//$data_inicial = $_POST['resultados_data_semeadura'];
-//$data_final = date('Y-m-d');
-//$resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $data_final);
+
 $main = new principal();
 $estacao_id = $_POST['resultados_estacao'];
-//$estacao_id = 'A803';
 $cultura_id = $_POST['resultados_cultura'];
-//$cultura_id = '108';
 $cultura = $main->get_culturas($cultura_id);
 $estacao = $main->get_estacoes($estacao_id);
 $data_inicial = $_POST['resultados_data_semeadura'];
-//$data_inicial = '2014-05-01';
 $data_final = date('Y-m-d');
-//echo $main->baixa_dados_todas_estacoes();
 $resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $data_final);
 ?>
 <!doctype html>

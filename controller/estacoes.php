@@ -1,5 +1,5 @@
 <?php
-include ("model/dados_estacoes.php");
+include ("../model/dados_estacoes.php");
 include ("inmet.php");
 
 class Estacoes{

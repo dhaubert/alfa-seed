@@ -1,6 +1,6 @@
 <?php
 
-chdir('C:/xampp/htdocs/AlfaSeed/');
+//chdir('C:/xampp/htdocs/AlfaSeed/');
 
 include ("estacoes.php");
 include ("calculos.php");

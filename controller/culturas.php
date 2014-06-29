@@ -1,5 +1,5 @@
 <?php
-include ("model/dados_culturas.php");
+include ("../model/dados_culturas.php");
 class Culturas {
     private $culturas;
     function Culturas(){
