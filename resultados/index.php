@@ -221,7 +221,7 @@ $resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $
                     if (y > limite) {
                         //                        $("#resultados_header").clone().appendTo('#resultados_header_clone');
                         //                        $('#resultados_header_clone').html($("#resultados_header").clone());
-                        $("#tab_header_clone").css({'position': 'fixed', 'margin-top': '-140px', 'background-color': '#404040'});
+                        $("#tab_header_clone").css({'position': 'fixed', 'margin-top': '-120px', 'background-color': '#404040'});
                         $("#tab_header_clone").fadeIn();
                     } else {
                         $("#tab_header_clone").css('position', 'relative');

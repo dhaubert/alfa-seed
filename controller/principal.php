@@ -29,17 +29,19 @@ class principal {
     }
 
     function serialize($resultados, $chave, $is_string) {
+        
         foreach ($resultados as $resultado) {
+            $data = $resultado['data'];
             if ($chave == 'kc') {
                 $values[] = $resultado['etc'] / $resultado['eto'];
-                $serializado[] = $resultado['etc'] / $resultado['eto'];
+                $serializado[] = "[Date.UTC(" . date('Y', strtotime($data)) . "," . (date('n', strtotime($data)) - 1) . "," . date('j', strtotime($data)) . "), " . $resultado['etc'] / $resultado['eto'] . "]";
             } else {
                 if ($is_string) {
                     $values[] = $resultado["$chave"];
                     $serializado[] = '\'' . $resultado["$chave"] . '\'';
                 } else {
                     $values[] = $resultado["$chave"];
-                    $serializado[] = $resultado["$chave"];
+                    $serializado[] = $serializado[] = "[Date.UTC(" . date('Y', strtotime($data)) . "," . (date('n', strtotime($data)) - 1) . "," . date('j', strtotime($data)) . "), " . round($resultado["$chave"],2) . "]";
                 }
             }
         }

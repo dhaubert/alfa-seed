@@ -108,7 +108,7 @@ function helpers() {
     $("#tmin").popover({
         placement: 'top', // top, top, left or right
         html: 'true',
-        content: 'Temperatura máxima diária do ar (em Cº)'
+        content: 'Temperatura min diária do ar (em Cº)'
     });
     $("#umid").popover({
         placement: 'top', // top, top, left or right
@@ -187,11 +187,11 @@ function maximizar() {
 }
 function carrega_parametros() {
     var estacao_id = $('#resultados_estacao').val();
-    if (estacao_id != null) {
+    if (estacao_id != "") {
         $("#estacoes option[value='" + estacao_id + "']").attr('selected', 'selected');
         var cultura_id = $('#resultados_cultura').val();
     }
-    if (cultura_id != null) {
+    if (cultura_id != "") {
         if (cultura_id > 100) {
             alterna_cultura();
         }
@@ -200,7 +200,7 @@ function carrega_parametros() {
         }
     }
     var data = $('#resultados_data_semeadura').val();
-    if (data != null) {
+    if (data != "") {
         var date_plantio = data.split('-')[2] + '/' + data.split('-')[1] + '/' + data.split('-')[0];
         $('#data_plantio').val(date_plantio);
     }

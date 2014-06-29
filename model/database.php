@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
 $user = 'alfaseed';
-$password = 'alfaseed';
+$password = 'alfaseedUFSM2014';
 
 @$conection = mysql_connect($host, $user, $password);
 mysql_select_db('alfaseed');
