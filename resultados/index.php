@@ -1,12 +1,12 @@
 <?php
-include_once('C:/xampp/htdocs/Alfaseed/controller/principal.php');
+include_once('../controller/principal.php');
 
 $main = new principal();
 $estacao_id = $_POST['resultados_estacao'];
 $cultura_id = $_POST['resultados_cultura'];
 $cultura = $main->get_culturas($cultura_id);
 $estacao = $main->get_estacoes($estacao_id);
-$data_inicial = $_POST['resultados_data_semeadura'];
+$data_inicial = $_POST['resultados_data_semeadura'] ;
 $data_final = date('Y-m-d');
 $resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $data_final);
 ?>

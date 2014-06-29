@@ -1,1 +1,0 @@
-This is a graduation conclusion work about yield response to water by Douglas Henrique Haubert at Universidade Federal de Santa Maria.

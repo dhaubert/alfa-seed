@@ -1,40 +1,23 @@
 $(function() {
     helpers();
 });
-//function gerenciador_paginas(url) {
-//    $.ajax({
-//        type: 'GET',
-//        url: './' + url
-//    }).done(function(retorno) {
-//        $('#main').html("");
-//        $('#main').html(retorno);
-//    });
-//}
-//function busca_pagina(alias) {
-//    gerenciador_paginas(alias);
-//}
 function enviar_arquivo() {
     alert('ajax');
-//      var formData = new FormData($('#clima'));
-    var fileInput = document.getElementById('importar');
+    var fileInput = $('#importar');
     var file = fileInput.files[0];
     var formData = new FormData();
     formData.append('file', file);
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', './configuracao.php', true);
+    xhr.open('POST', '../configuracao.php', true);
     xhr.send(formData);
-//      $.ajax({
-//         type: 'POST',
-//         data: formData,
-//         url: './configuracao.php',
-//         enctype: 'multipart/form-data'
-////         data: $('#clima').serialize()
-//        
-////         dataType : 'json',
-//        
-//      }).done(function(retorno){
-//          alert(retorno);
-//      });
+      $.ajax({
+         type: 'POST',
+         data: formData,
+         url: '../controller/requisicoes_ajax.php',
+         enctype: 'multipart/form-data'
+      }).done(function(retorno){
+          alert(retorno);
+      });
 
 }
 function helpers() {
@@ -187,7 +170,9 @@ function maximizar() {
 }
 function carrega_parametros() {
     var estacao_id = $('#resultados_estacao').val();
+    
     if (estacao_id != "") {
+        atualiza_mapa(estacao_id);
         $("#estacoes option[value='" + estacao_id + "']").attr('selected', 'selected');
         var cultura_id = $('#resultados_cultura').val();
     }

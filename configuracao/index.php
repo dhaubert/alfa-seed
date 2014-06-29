@@ -156,7 +156,7 @@ $main = new principal('mapa');
                         <div class="container">
                             <div class="row">
                                 <div class="cols-lg-12 center-block" style="margin-top:10px">
-                                    <input type="button" class="btn btn-success" onclick="salvar_clima()" value="<?php echo _("Salvar dados climáticos"); ?>">
+                                    <input type="button" class="btn btn-success" onclick="salvar_clima()" value="<?php echo _("Salvar dados meteorológicos"); ?>">
                                 </div>
                             </div>
                         </div>

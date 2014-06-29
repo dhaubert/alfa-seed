@@ -74,16 +74,16 @@
                     <div class="service col-md-6">
                         <h1>
                             <a href="configuracao/">
-                                    <i class="fa fa-bolt fa-large"></i><br/>
+                                    <i class="fa fa-pagelines fa-large"></i><br/>
                                     <span class="text"><?php echo _("Iniciar"); ?></span>
                                 </a>
                         </h1>
                     </div>
                     <div class="service col-md-6">
                         <h1>
-                            <a href="como_funciona.pdf">
-                                    <i class="fa fa-question fa-square fa-large"></i><br/>
-                                    <span class="text"><?php echo _("Como funciona?"); ?></span>
+                            <a href="https://github.com/dhaubert/alfa-seed">
+                                    <i class="fa fa-code fa-large"></i><br/>
+                                    <span class="text"><?php echo _("Código Fonte"); ?></span>
                             </a>
                         </h1>
                     </div>

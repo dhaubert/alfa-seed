@@ -86,7 +86,7 @@ class principal {
     function get_json_estacoes($estacao_id = NULL) {
         $resultado = $this->get_estacoes($estacao_id);
         $json = json_encode($resultado);
-        $arquivo = fopen('./js/mapas/pontos.json', 'w+');
+        $arquivo = fopen('../js/mapas/pontos.json', 'w+');
         fwrite($arquivo, $json);
         fclose($arquivo);
         //return $json;
