@@ -19,7 +19,11 @@ class Calculo {
         $GDD = 0;
         for ($i = 0; $i < count($medias); $i++) {
             $medias[$i] = $this->ETo($medias[$i]);
-            $medias[$i] = $this->graus_dia_acumulados($medias[$i], $GDD);
+            $medias[$i] = $this->graus_dia_acumulados($medias[$i], $GDD, $cultura);
+            if($i == 0){
+                $medias[0]['GD_acumulado'] = 0;
+                $medias[0]['GD_diario'] = 0;
+            }
             $medias[$i] = $this->ETc($medias[$i], $cultura);
             $GDD = $medias[$i]['GD_acumulado'];
         }
@@ -106,32 +110,6 @@ class Calculo {
 
     function ETo($medias) {
 
-//        $medias['estacao_id'] = 1010;
-//        $medias['estacao'] = 'E - Luziânia';
-//        $medias['latitude'] = -0.28389525616646666666667;
-//        $medias['altitude'] = 958.00;
-//        $medias['data'] = '2014-06-10';
-//        $medias['hora'] = '00:00';
-//        $medias['mes'] = 06 / 2014;
-//        $medias['dia'] = 10;
-//        $medias['registros'] = 24;
-//        $medias['datas'] = 1;
-//        $medias['temperatura_ar'] = 20.62500;
-//        $medias['tipo_reg'] = h;
-//        $medias['temperatura_minima'] = 15.8;
-//        $medias['temperatura_maxima'] = 26.2;
-//        $medias['insolacao'] = 11;
-//        $medias['umidade_minima'] = 37;
-//        $medias['umidade_maxima'] = 75;
-//        $medias['umidade'] = 58.3750;
-//        $medias['pressao'] = 90.90515627700;
-//        $medias['vento'] = 3.065417;
-//        $medias['precipitacao'] = 0.00;
-//        $medias['radiacao'] = 439.193636;
-//        $medias['radiacao_soma'] = 4831.13;
-//        $medias['radiacao_soma_mj'] = 17.3920680;
-//        
-//        
         // Evapotranspiração de Referência, segundo Modelo Penman-Monteith-FAO
         // Disponível em: http://www.fao.org/3/a-x0490e/x0490e06.htm 
         // Acessado em 01/06/2014
@@ -196,18 +174,20 @@ class Calculo {
         return $medias;
     }
 
-    function graus_dia_acumulados($media, $GD_acumulado) {
+    function graus_dia_acumulados($media, $GD_acumulado, $cultura) {
+        $Tbase = $cultura['temperatura_base'];
+        $Tupper = $cultura['temperatura_superior'];
         $Tmax = $media['temperatura_maxima'];
         $Tmin = $media['temperatura_minima'];
         $Tavg = $this->media(array($Tmax, $Tmin));
-        if ($Tavg > $this->Tupper) {
-            $Tavg = $this->Tupper;
+        if ($Tavg > $Tupper) {
+            $Tavg = $Tupper;
         } else {
-            if ($Tavg < $this->Tbase) {
-                $Tavg = $this->Tbase;
+            if ($Tavg < $Tbase) {
+                $Tavg = $Tbase;
             }
         }
-        $media['GD_diario'] = $Tavg - $this->Tbase;
+        $media['GD_diario'] = $Tavg - $Tbase;
         $media['GD_acumulado'] = $GD_acumulado + $media['GD_diario'];
         return $media;
     }
@@ -218,24 +198,30 @@ class Calculo {
 //        echo "</pre>";
         $ETo = $medias['eto'];
         $GDD = $medias['GD_acumulado'];
-        $Kc = $cultura['kc_ini'];
+//        $Kc = $cultura['kc_ini'];
+        $Kc = $this->Kc_linear($cultura, $GDD);
         //construcao da curva do coeficiente de cultura
         $medias['estagio'] = 'inicial';
+//        $medias['estagio'] = '1';
         if ($GDD >= $cultura['gda_ini']) { //from sowing to emergence
-//            $Kc = $cultura['kc_ini_mid'];//calcular elevacao da curva
+//           $Kc = $this->Kc_linear($cultura, $GDD);
             $medias['estagio'] = 'development';
+//            $medias['estagio'] = '2';
         }
         if ($GDD >= $cultura['gda_dev']) { //flowering
 //            $Kc = $cultura['kc_mid'];
             $medias['estagio'] = 'mid-season';
+//            $medias['estagio'] = '3';
         }
         if ($GDD >= $cultura['gda_mid']) {
-//            $Kc = $cultura['kc_mid_end'];//calcular declinacao da curva
+//            $Kc = $this->Kc_linear($cultura, $GDD);
             $medias['estagio'] = 'late-season';
+//            $medias['estagio'] = '4';
         }
         if ($GDD >= $cultura['gda_late']) {
-//            $Kc = $cultura['kc_end'];//alteracao
-            $medias['estagio'] = 'maduro';
+//            $Kc = $cultura['kc_end']; //alteracao
+//            $medias['estagio'] = '5';
+            $medias['estagio'] = 'mature';
         }
 
         //evapotranspiração da cultura - equação 58
@@ -243,32 +229,32 @@ class Calculo {
         $medias['etc'] = $ETc;
         return $medias;
     }
-    function Calcula_KC_Mid_End($kc_tab, $altura, $media_vento, $RHmin) {
-      $kc = $kc_tab + 0.04 * ($media_vento - 2) - 0.004 * ($RHmin - 45) * pow(($altura / 3), 0.3);
-      return $kc;
-   }
 
-   function Calcula_KC_Proporcional($gda, $gda_ini, $gda_dev, $gda_mid, $gda_late, $kc_ini, $kc_mid, $kc_end) {
-      $GDDev = $gda_dev - $gda_ini;
-      $GDLate = $gda_late - $gda_mid;
-
-      if ($gda < $gda_dev) {
-         $kc = $kc_ini + ($gda - $gda_ini) / $GDDev * ($kc_mid - $kc_ini);
-      } else {
-         if ($gda < $gda_mid) {
-            $kc = $kc_mid;
-         } else {
-
-            /* @var $gda_late type */
-            if ($gda < $gda_late) {
-               $kc = $kc_mid + ($gda - $gda_mid) / $GDLate * ($kc_end - $kc_mid);
+    function Kc_linear($cultura, $GD_acumulado) {
+        foreach ($cultura as $k => $v) {
+            $$k = $v;
+        }
+        $GD_ini_dev = $gda_dev - $gda_ini;
+        $GD_mid_late = $gda_late - $gda_mid;
+        if ($GD_acumulado <= $gda_ini) {
+            return $kc_ini;
+        } else {
+            if ($GD_acumulado < $gda_dev ) {
+                return $kc_ini + ($GD_acumulado - $gda_ini) / $GD_ini_dev * ($kc_mid - $kc_ini);
             } else {
-               $kc = $kc_end;
+                if ($GD_acumulado <= $gda_mid) {
+                    return $kc_mid;
+                } else {
+                    if ($GD_acumulado < $gda_late) {
+                        return $kc_mid + ($GD_acumulado - $gda_mid) / $GD_mid_late * ($kc_end - $kc_mid);
+                    } else {
+                        return $kc_end;
+                    }
+                }
             }
-         }
-      }
-      return $kc;
-   }
+        }
+        return $kc_ini;
+    }
 
 }
 ?>

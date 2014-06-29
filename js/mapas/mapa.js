@@ -3,11 +3,11 @@ var idInfoBoxAberto;
 var infoBox = [];
 var markers = [];
 function initialize() {
-
+    markers = [];
     var latlng = new google.maps.LatLng(-18.8800397, -47.05878999999999);
 
     var options = {
-        zoom: 1,
+        zoom: 3,
         center: latlng,
 //        mapTypeId: google.maps.MapTypeId.SATELLITE
         mapTypeId: google.maps.MapTypeId.MAP
@@ -57,14 +57,9 @@ function carregarPontos() {
             });
 
             markers.push(marker);
-
             latlngbounds.extend(marker.position);
-
         });
-
         var markerCluster = new MarkerClusterer(map, markers);
-
         map.fitBounds(latlngbounds);
-
     });
 }

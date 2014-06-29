@@ -1,5 +1,5 @@
 $(function() {
-
+    helpers();
 });
 //function gerenciador_paginas(url) {
 //    $.ajax({
@@ -37,6 +37,141 @@ function enviar_arquivo() {
 //      });
 
 }
+function helpers() {
+
+    $("#help_nome_cultura").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Nome pelo qual a cultura é conhecida'
+    });
+    $("#help_kc_ini").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Coeficiente de cultura para o estágio inicial'
+    });
+    $("#help_kc_mid").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Coeficiente de cultura para o estágio intermediário'
+    });
+    $("#help_kc_end").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Coeficiente de cultura para o estágio final'
+    });
+    $("#help_gda_ini").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Graus dia acumulados para atingir o estágio inicial (GDA)'
+    });
+    $("#help_gda_mid").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Graus dia acumulados para atingir o estágio intermediário (GDA)'
+    });
+    $("#help_gda_dev").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Graus dia acumulados para atingir o estágio de crescimento (GDA)'
+    });
+    $("#help_gda_late").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Graus dia acumulados para atingir o estágio de maturação (GDA)'
+    });
+    $("#help_temp_base").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Graus Celcius cujo desenvolvimento da planta é nulo.'
+    });
+    $("#help_temp_upper").popover({
+        placement: 'bottom', // top, bottom, left or right
+        html: 'true',
+        content: 'Graus Celcius cujo desenvolvimento da planta é máximo.'
+    });
+    // resultados
+    $("#data").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Data de semeadura até o dia atual'
+    });
+    $("#tar").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Temperatura média diária do ar (em Cº)'
+    });
+    $("#tmax").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Temperatura máxima diária do ar (em Cº)'
+    });
+    $("#tmin").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Temperatura máxima diária do ar (em Cº)'
+    });
+    $("#umid").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Umidade relativa do ar média diária (em %)'
+    });
+    $("#umid_max").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Umidade relativa do ar máxima diária (em %)'
+    });
+    $("#umid_min").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Umidade relativa do ar mínima diária (em %)'
+    });
+    $("#pressao").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Pressão atmosférica (em hPa)'
+    });
+    $("#vento").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Velocidade do vento média diária (em m/s)'
+    });
+    $("#radiacao").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Radiação solar medida (kJ/m²)'
+    });
+    $("#insolacao").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Número de horas de luz do sol'
+    });
+    $("#estagio").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Estágio de desenvolvimento da cultura'
+    });
+    $("#gda").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Graus dia acumulado (em Cº)'
+    });
+    $("#eto").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Evapotranspiração de referência (em mm/dia)'
+    });
+    $("#etc").popover({
+        placement: 'top', // top, bottom, left or right
+        html: 'true',
+        content: 'Evapotranspiração da cultura (em mm/dia)'
+    });
+    $("#kc").popover({
+        placement: 'top', // top, bottom, left or right
+        html: 'true',
+        content: 'Coeficiente de cultura'
+    });
+
+}
 function minimizar(menu, alias) {
     $(".header_menu").animate({height: '45px', opacity: '0'});
     $(".footer").animate({height: '45px', opacity: '0'});
@@ -49,6 +184,30 @@ function maximizar() {
     $(".header_menu").animate({height: '100%', opacity: '1'});
     $(".footer").animate({height: '45px', opacity: '1'});
     $("#menu").fadeOut(1000);
+}
+function carrega_parametros() {
+    var estacao_id = $('#resultados_estacao').val();
+    if (estacao_id != null) {
+        $("#estacoes option[value='" + estacao_id + "']").attr('selected', 'selected');
+        var cultura_id = $('#resultados_cultura').val();
+    }
+    if (cultura_id != null) {
+        if (cultura_id > 100) {
+            alterna_cultura();
+        }
+        else {
+            $("#culturas option[value='" + cultura_id + "']").attr('selected', 'selected');
+        }
+    }
+    var data = $('#resultados_data_semeadura').val();
+    if (data != null) {
+        var date_plantio = data.split('-')[2] + '/' + data.split('-')[1] + '/' + data.split('-')[0];
+        $('#data_plantio').val(date_plantio);
+    }
+}
+function acessa_pagina(secao) {
+    $('#form_parametros').attr('action', '../' + secao + '/index.php');
+    $('#form_parametros').submit();
 }
 function alterna_clima() {
     $('#dados_inmet').toggleClass('active');
@@ -63,23 +222,77 @@ function alterna_clima() {
     }
 
 }
+function alterna_cultura() {
+    $('#sel_cultura').toggleClass('active');
+    $('#add_cultura').toggleClass('active');
+    $('#tela_sel_cultura').toggle();
+    $('#tela_add_cultura').toggle();
+    if ($('#sel_cultura').hasClass('active')) {
+        $("#entrada_cultura").val('selecao');
+    }
+    else {
+        $("#entrada_cultura").val('adicao');
+    }
+
+}
+
+function trim(str)
+{
+    return str.replace(/^\s+|\s+$/g, "");
+}
+function salvar_cultura() {
+    var retorno = "";
+    if ($('#entrada_cultura').val() == 'selecao') {
+        $("#resultados_cultura ").val($("#culturas option:selected").val());
+        var check_icon = '<i class="fa fa-check" style="font-size: 22px; color: #308E4B;"></i>';
+        $("#mensagem_cultura").html(check_icon + '&nbsp;' + 'A cultura foi salva com sucesso.');
+    } else {
+        if ($('#entrada_cultura').val() == 'adicao') {
+            $.ajax({
+                data: 'request=salvar_nova_cultura&' +
+                        $('#nova_cultura').serialize(),
+                url: '../controller/requisicoes_ajax.php',
+                type: 'POST',
+                async: 'false'
+            }).done(function(retorno_) {
+                retorno_ = trim(retorno_);
+                retorno = retorno_.split('::');
+                $("#resultados_cultura").val(retorno[2]);
+                if (retorno[0] == "OK") {
+                    var check_icon = '<i class="fa fa-check" style="font-size: 22px; color: #308E4B;"></i>';
+                    $("#mensagem_cultura").html(check_icon + '&nbsp;' + retorno[1]);
+                }
+                else {
+                    var check_icon = '<i class="fa fa-times" style="font-size: 22px; color: #FF0400;"></i>';
+                    $("#mensagem_cultura").html(check_icon + '&nbsp;' + retorno[1]);
+                }
+            });
+        }
+    }
+
+
+}
 function salvar_clima() {
 
-    if ($('#entrada_clima').val() == 'inmet'){
-            var estacao_id = $('#estacoes option:selected').val();
-            var data_inicial = $('#data_plantio').val();
-            $("#mensagem_clima").html("");
-            $("#spinner").addClass('fa-spin');
-            $("#loading").fadeIn();
-            $.ajax({
+    if ($('#entrada_clima').val() == 'inmet') {
+        var estacao_id = $('#estacoes option:selected').val();
+        $("#resultados_estacao").val(estacao_id);
+        var data_inicial = $('#data_plantio').val();
+        var data_ = data_inicial.split('/');
+        var data_US = data_[2] + '-' + data_[1] + '-' + data_[0];
+        $("#resultados_data_semeadura").val(data_US);
+        $("#mensagem_clima").html("");
+        $("#spinner").addClass('fa-spin');
+        $("#loading").fadeIn();
+        $.ajax({
             data: 'request=salvar_clima_inmet' +
                     '&estacao_id=' + estacao_id +
                     '&data_inicial=' + data_inicial,
-                    url: '../controller/requisicoes_ajax.php',
-                    type: 'POST',
-                    async: 'false'
-            }).done(function(retorno) {
-            
+            url: '../controller/requisicoes_ajax.php',
+            type: 'POST',
+            async: 'false'
+        }).done(function(retorno) {
+
             retorno = retorno.trim().split("::");
             $("#spinner").removeClass('fa-spin');
             $("#loading").hide();
@@ -88,32 +301,32 @@ function salvar_clima() {
                 $("#mensagem_clima").html(check_icon + '&nbsp;' + retorno[1]);
             }
             else {
-                    var check_icon = '<i class="fa fa-times" style="font-size: 22px; color: #FF0400;"></i>';
-                    $("#mensagem_clima").html(check_icon + '&nbsp;' + retorno[1]);
+                var check_icon = '<i class="fa fa-times" style="font-size: 22px; color: #FF0400;"></i>';
+                $("#mensagem_clima").html(check_icon + '&nbsp;' + retorno[1]);
             }
-         });
-     }else{
+        });
+    } else {
         if ($('#entrada_clima').val() == 'csv') {
             alert("Importando arquivo separado por virgulas");
             $('#importar').submit();
         }
     }
 
-   
+
 }
 function atualiza_mapa(estacao_id) {
     $.ajax({
-            data: 'request=atualizar_mapa' +
-                    '&estacao_id=' + estacao_id, 
-                    url: '../controller/requisicoes_ajax.php',
-                    type: 'POST',
-                    async: 'false'
+        data: 'request=atualizar_mapa' +
+                '&estacao_id=' + estacao_id,
+        url: '../controller/requisicoes_ajax.php',
+        type: 'POST',
+        async: 'false'
     }).done(function(retorno) {
-//        initialize();
+        initialize();
         carregarPontos();
     });
 }
-function atualiza_tabela(kc_ini, kc_mid, kc_end, gd_ini, gd_mid, gd_dev, gd_late, tbase, tupper){
+function atualiza_tabela(kc_ini, kc_mid, kc_end, gd_ini, gd_mid, gd_dev, gd_late, tbase, tupper) {
     $('#kcini').text(kc_ini);
     $('#kcmid').text(kc_mid);
     $('#kcend').text(kc_end);

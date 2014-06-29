@@ -8,6 +8,12 @@ body{
     background: url(../images/gray_sand.png);
     color: #FFFFFF;
 }
+.verde{
+    color: #308E4B;
+}
+table, th, td{
+    text-align: center;
+}
 .container{
     width: 100%;
 }
@@ -37,6 +43,10 @@ option:selected{
 }
 .ui-datepicker-inline{
     width: 100%;
+}
+.btn-large{
+    padding: 12px;
+    font-size: 18px;
 }
 legend { 
     margin: 15px 0 0 0;
@@ -110,7 +120,7 @@ i.fa-large{
     padding: 0;
 }
 .menu{
-    height: 40px;
+    height: 30px;
     /*display: none;*/
     -webkit-box-shadow: 0px 2px 4px 0px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    0px 2px 4px 0px rgba(50, 50, 50, 0.75);
@@ -125,8 +135,11 @@ i.fa-large{
 input.active {
     border: 1px inset #308E4B;
 }
-select.form-control{
+#estacoes{
     height: 260px;
+}
+input{
+    color: #3C3C3C;
 }
 #map_canvas{
     height: 260px;
@@ -138,9 +151,15 @@ select.form-control{
     background-color: #FFF; 
     width: 300px; 
     font-size: 14px; 
-    border: 2px solid #3fa7d8; 
+    border: 2px solid #308E4B; 
     border-radius: 3px; 
     margin-top: 10px; 
+}
+.popover{
+    color: #3C3C3C;
+}
+.fa-question-circle{
+    color: #308E4B;
 }
 .infoBox p { 
     padding: 0 15px 
@@ -148,7 +167,7 @@ select.form-control{
 .infoBox:before { 
     border-left: 10px solid transparent; 
     border-right: 10px solid transparent; 
-    border-bottom: 10px solid #308E4B; 
+    border-bottom: 10px solid #148854; 
     top: -10px; 
     content: ""; 
     height: 0; 

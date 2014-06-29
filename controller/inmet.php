@@ -19,14 +19,27 @@ class INMET {
         $this->UTC = (date("I", strtotime("now")))? 2: 3;
         
     }
+    function numero_de_horas($data_inicial, $data_final){
+        $data = explode('/',$data_inicial);
+        $data_inicial = $data[2] . '-' . $data[1] . '-' . $data[0];
+        
+//        $data = explode('/',$data_final);
+//        $data_final = $data[2] . '-' . $data[1] . '-' . $data[0];
+        $data_final = date('Y-m-d H:i:s');
+        $nhoras = (int) ceil((strtotime($data_final) - strtotime($data_inicial)) / (60 * 60 ));
+        return $nhoras;
+    }
     /* busca nome do arquivo e organiza os dados */
     function busca_dados_INMET($estacao, $data_inicial, $data_final) {
         $contents = $this->get_file($estacao, $data_inicial, $data_final);
         $html = explode('</tr>', $contents);
         $html = array_map('trim', $html);
         $dados = array_filter(array_map("inmet::extrai_tabela", $html));
+        $nhoras = $this->numero_de_horas($data_inicial, $data_final);
+        
         if(count($dados) > 0){
-            echo "OK::"._("Foram obtidos"). " " . count($dados) . " " . _("dados horários."). "\n";
+            $porcentagem = round(count($dados)*100 / $nhoras, 2);
+            echo "OK::"._("Foram obtidos"). " " . count($dados) . " " . _("dados horários.").' '. _("Precisão de").  " $porcentagem%.\n";
         }
         else{
             echo "ERRO::" . _("Não foi possível buscar dados para este múnicipio.")."\n";

@@ -32,66 +32,11 @@
 
 </head>
 <body>
-    <nav id="menu" class="navbar navbar-default menu" role="navigation">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" onclick="maximizar();">Alfa Seed Software</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li id="configuracao" >
-                        <a href='configuracao/'><i class="fa fa-gear"></i> Configuração</a>
-                    </li>
-                    <li id="resultados" >
-                        <a href='resultados/'><i class="fa fa-tint"></i> Resultados</a>
-                    </li>
-                    <li id="simulacoes" >
-                        <a href='simulacoes/'><i class="fa fa-bar-chart-o"></i> Simulações</a>
-                    </li>
-                    <!--        <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">One more separated link</a></li>
-                              </ul>
-                            </li>-->
-                </ul>
-                <!--      <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                          <input type="text" class="form-control" placeholder="Search">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                      </form>-->
-                <!--      <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Link</a></li>
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                          <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                          </ul>
-                        </li>
-                      </ul>-->
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
+        <form id="form_parametros" action="../resultados/index.php" method="POST">
+            <input type="hidden" id="resultados_estacao" name="resultados_estacao" value="<?php echo $_POST['resultados_estacao']?>"/>
+            <input type="hidden" id="resultados_cultura" name="resultados_cultura" value="<?php echo $_POST['resultados_cultura']?>"/>
+            <input type="hidden" id="resultados_data_semeadura" name="resultados_data_semeadura" value="<?php echo $_POST['resultados_data_semeadura']?>"/>
+        </form>
     <section id="main">
 
     </section>
@@ -99,10 +44,10 @@
         <div class="jumbotron jumbotron-ad hidden-print">
             <div class="container">
                 <div class="row">
+                    <?php if(isset($_POST['resultados_estacao']) && isset($_POST['resultados_cultura'])&& isset($_POST['resultados_data_semeadura'])){ ?>
                     <div class="service col-md-4">
                         <h1>
-                            <!--<a  onclick="minimizar('<?php echo _("Configuração"); ?>', 'configuracao')">-->
-                            <a  href='configuracao/' onclick="minimizar('<?php echo _("Configuração"); ?>', 'configuracao')">
+                            <a onclick="acessa_pagina('configuracao')">
                                 <i class="fa fa-gear fa-large"></i><br/>
                                 <span class="text"><?php echo _("Configuração"); ?></span>
                             </a>
@@ -110,7 +55,7 @@
                     </div>
                     <div class="service col-md-4">
                         <h1>
-                             <a href='resultados/'>
+                            <a onclick="acessa_pagina('resultados')">
                                     <i class="fa fa-tint fa-large"></i><br/>
                                     <span class="text"><?php echo _("Resultados"); ?></span>
                                 </a>
@@ -118,12 +63,31 @@
                     </div>
                     <div class="service col-md-4">
                         <h1>
-                            <a <a onclick="minimizar('<?php echo _("Simulações"); ?>', 'simulacoes')">
+                            <a onclick="acessa_pagina('graficos')">
                                     <i class="fa fa-bar-chart-o fa-large"></i><br/>
                                     <span class="text"><?php echo _("Simulações"); ?></span>
                                 </a>
                         </h1>
                     </div>
+                    <?php } 
+                    else{?>
+                    <div class="service col-md-6">
+                        <h1>
+                            <a href="configuracao/">
+                                    <i class="fa fa-bolt fa-large"></i><br/>
+                                    <span class="text"><?php echo _("Iniciar"); ?></span>
+                                </a>
+                        </h1>
+                    </div>
+                    <div class="service col-md-6">
+                        <h1>
+                            <a href="como_funciona.pdf">
+                                    <i class="fa fa-question fa-square fa-large"></i><br/>
+                                    <span class="text"><?php echo _("Como funciona?"); ?></span>
+                            </a>
+                        </h1>
+                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
