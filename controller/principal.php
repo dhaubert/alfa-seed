@@ -5,6 +5,7 @@
 include ("estacoes.php");
 include ("calculos.php");
 include ("culturas.php");
+include ("solos.php");
 
 class principal {
     /* construtor possibilita atualização do arquivo que forma mapa de estacoes */
@@ -28,8 +29,13 @@ class principal {
         return $culturas->busca_culturas($cultura_id);
     }
 
+    function get_solos($solo_id = NULL) {
+        $solos = new Solos();
+        return $solos->busca_solos($solo_id);
+    }
+
     function serialize($resultados, $chave, $is_string) {
-        
+
         foreach ($resultados as $resultado) {
             $data = $resultado['data'];
             if ($chave == 'kc') {
@@ -41,7 +47,7 @@ class principal {
                     $serializado[] = '\'' . $resultado["$chave"] . '\'';
                 } else {
                     $values[] = $resultado["$chave"];
-                    $serializado[] = $serializado[] = "[Date.UTC(" . date('Y', strtotime($data)) . "," . (date('n', strtotime($data)) - 1) . "," . date('j', strtotime($data)) . "), " . round($resultado["$chave"],2) . "]";
+                    $serializado[] = $serializado[] = "[Date.UTC(" . date('Y', strtotime($data)) . "," . (date('n', strtotime($data)) - 1) . "," . date('j', strtotime($data)) . "), " . round($resultado["$chave"], 2) . "]";
                 }
             }
         }
@@ -57,14 +63,6 @@ class principal {
         return array(implode(',', $serializado), min($values), max($values));
     }
 
-//    function serialize_gd_diario($resultados) {
-//        foreach ($resultados as $resultado) {
-//                $data = $resultado['data'];
-//                    $serializado[] = "[Date.UTC(".date('Y', strtotime($data)).",".(date('n', strtotime($data))-1).",".date('j', strtotime($data))."), ".$resultado["GD_diario"] ."]";
-//                
-//            }
-//        return implode(',', $serializado);
-//    }
     function serialize_kc($resultados) {
         foreach ($resultados as $resultado) {
             $data = $resultado['data'];

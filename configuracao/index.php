@@ -104,10 +104,10 @@ $main = new principal('mapa');
                                             ?>
                                             <option value="<?php echo $estacao['estacao_id']; ?>"
                                                     onclick="atualiza_mapa(
-                                                                        '<?php echo $estacao['estacao_id']; ?>',
-                                                                        '<?php echo $estacao['latitude']; ?>',
-                                                                        '<?php echo $estacao['longitude']; ?>',
-                                                                        '<?php echo $estacao['altitude']; ?>');">
+                                                                    '<?php echo $estacao['estacao_id']; ?>',
+                                                                    '<?php echo $estacao['latitude']; ?>',
+                                                                    '<?php echo $estacao['longitude']; ?>',
+                                                                    '<?php echo $estacao['altitude']; ?>');">
                                                         <?php echo $estacao['municipio']; ?>
                                             </option>
                                             <?php
@@ -196,16 +196,16 @@ $main = new principal('mapa');
                                             ?>
                                             <option value="<?php echo $cultura['id']; ?>"
                                                     onclick="atualiza_tabela(
-                                                                        '<?php echo $cultura['kc_ini']; ?>',
-                                                                        '<?php echo $cultura['kc_mid']; ?>',
-                                                                        '<?php echo $cultura['kc_end']; ?>',
-                                                                        '<?php echo $cultura['gda_ini']; ?>',
-                                                                        '<?php echo $cultura['gda_mid']; ?>',
-                                                                        '<?php echo $cultura['gda_dev']; ?>',
-                                                                        '<?php echo $cultura['gda_late']; ?>',
-                                                                        '<?php echo $cultura['temperatura_base']; ?>',
-                                                                        '<?php echo $cultura['temperatura_superior']; ?>'
-                                                                        );">
+                                                                    '<?php echo $cultura['kc_ini']; ?>',
+                                                                    '<?php echo $cultura['kc_mid']; ?>',
+                                                                    '<?php echo $cultura['kc_end']; ?>',
+                                                                    '<?php echo $cultura['gda_ini']; ?>',
+                                                                    '<?php echo $cultura['gda_mid']; ?>',
+                                                                    '<?php echo $cultura['gda_dev']; ?>',
+                                                                    '<?php echo $cultura['gda_late']; ?>',
+                                                                    '<?php echo $cultura['temperatura_base']; ?>',
+                                                                    '<?php echo $cultura['temperatura_superior']; ?>'
+                                                                    );">
                                                         <?php echo $cultura['cultura']; ?>
                                             </option>
                                             <?php
@@ -310,91 +310,92 @@ $main = new principal('mapa');
                                 </div>
                             </div>
                         </div>
-
                     </fieldset>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="container">
+            <div class="row">
                 <div class="col-xs-12">
                     <fieldset>
                         <legend>
                             <i class="fa fa-sort-amount-desc"></i> <?php echo _("Solo"); ?>
                         </legend>
-<!--                        <div class="container">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <div class="btn-group ">
-                                        <input onclick="alterna_cultura()" id="sel_cultura" class="btn btn-success active" type="button" value="<?php echo _("Selecionar"); ?>"/>
-                                        <input onclick="alterna_cultura()" id="add_cultura" class="btn btn-success" type="button" value="<?php echo _("Adicionar"); ?>"/>
-                                    </div>
-                                </div>
-                                <div class="col-xs-9">
-                                    <div id="mensagem_solo"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr />-->
+                        <!--                        <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-xs-3">
+                                                            <div class="btn-group ">
+                                                                <input onclick="alterna_cultura()" id="sel_cultura" class="btn btn-success active" type="button" value="<?php echo _("Selecionar"); ?>"/>
+                                                                <input onclick="alterna_cultura()" id="add_cultura" class="btn btn-success" type="button" value="<?php echo _("Adicionar"); ?>"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-9">
+                                                            <div id="mensagem_solo"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr />-->
                         <div class="container">
-                            <div id="tela_sel_solo" class="row">
+                            <div  class="row">
                                 <div class="col-xs-4">
-                                    <select multiple id="solos" name="solos" class="form-control" >
+                                    <select multiple id="solos" name="solos" class="form-control" style="color: #414141">
                                         <option value="0" selected=""> <?php echo _('Selecione o tipo de solo') ?>... </option>
                                         <?php
                                         $solos = $main->get_solos();
                                         foreach ($solos as $solo) {
                                             ?>
-                                            <option value="<?php echo $solo['id']; ?>"
-                                                        <?php echo _("{$solo['tipo']}"); ?>
-                                            </option>
-                                            <?php
+                                            <option value="<?php echo $solo['id']; ?>">
+                                            <?php echo _("{$solo['tipo']}"); ?>
+                                        </option>
+                                        <?php
                                         }
-                                        ?>
-                                    </select>
-                                </div>
+                                    ?>
+                                </select>
                             </div>
                         </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="cols-lg-12 center-block" style="margin-top:10px">
-                                    <input type="button" class="btn btn-success" onclick="salvar_cultura()" value="<?php echo _("Salvar solo"); ?>">
-                                </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="cols-lg-12 center-block" style="margin-top:10px">
+                                <input type="button" class="btn btn-success" onclick="salvar_solo()" value="<?php echo _("Salvar solo"); ?>">
                             </div>
                         </div>
+                    </div>
 
-                    </fieldset>
-                </div>
-            </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 center-block" style="margin-top:10px">
-                    <input type="button" class="btn btn-large btn-success" onclick="acessa_pagina('resultados')" value="<?php echo _("Calcular resultados"); ?>">
-                    &nbsp;<input type="button" class="btn btn-large btn-success" onclick="acessa_pagina('graficos')" value="<?php echo _("Visualizar Gráficos"); ?>">
-                </div>
+                </fieldset>
             </div>
         </div>
-        <script>
-            $(function() {
-                carrega_parametros();
-                initialize();
-                carregarPontos();
-                $("#fileuploader").uploadFile({
-                    url: "configuracao.php",
-                    fileName: "importar",
-                    maxFileSize: "2MB",
-                    maxFileCount: 1,
-                    allowedTypes: "csv",
-                    showFileCounter: false
-                });
-                $("#div_datepicker").datepicker({
-                    onSelect: function(dateText, inst) {
-                        $("#data_plantio").val(dateText);
-                    },
-                    dateFormat: "dd/mm/yy"
-                });
-                $("#div_datepicker").datepicker('show');
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 center-block" style="margin-top:10px">
+                <input type="button" class="btn btn-large btn-success" onclick="acessa_pagina('resultados')" value="<?php echo _("Calcular resultados"); ?>">
+                &nbsp;<input type="button" class="btn btn-large btn-success" onclick="acessa_pagina('graficos')" value="<?php echo _("Visualizar Gráficos"); ?>">
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            carrega_parametros();
+            initialize();
+            carregarPontos();
+            $("#fileuploader").uploadFile({
+                url: "configuracao.php",
+                fileName: "importar",
+                maxFileSize: "2MB",
+                maxFileCount: 1,
+                allowedTypes: "csv",
+                showFileCounter: false
             });
+            $("#div_datepicker").datepicker({
+                onSelect: function(dateText, inst) {
+                    $("#data_plantio").val(dateText);
+                },
+                dateFormat: "dd/mm/yy"
+            });
+            $("#div_datepicker").datepicker('show');
+        });
 
-        </script>
-    </body>
+    </script>
+</body>
 </html>

@@ -16,9 +16,6 @@ class dados_solos {
             ORDER BY
                 tipo ASC
                  ";
-        echo "<pre>";
-        print_r($query);
-        echo "</pre>";
         $result = mysql_query($query);
         while($l = mysql_fetch_assoc($result)){
             $dados[] = $l;
