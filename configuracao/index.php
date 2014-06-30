@@ -315,6 +315,56 @@ $main = new principal('mapa');
                 </div>
             </div>
         </div>
+        <div class="row">
+                <div class="col-xs-12">
+                    <fieldset>
+                        <legend>
+                            <i class="fa fa-sort-amount-desc"></i> <?php echo _("Solo"); ?>
+                        </legend>
+<!--                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <div class="btn-group ">
+                                        <input onclick="alterna_cultura()" id="sel_cultura" class="btn btn-success active" type="button" value="<?php echo _("Selecionar"); ?>"/>
+                                        <input onclick="alterna_cultura()" id="add_cultura" class="btn btn-success" type="button" value="<?php echo _("Adicionar"); ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-9">
+                                    <div id="mensagem_solo"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />-->
+                        <div class="container">
+                            <div id="tela_sel_solo" class="row">
+                                <div class="col-xs-4">
+                                    <select multiple id="solos" name="solos" class="form-control" >
+                                        <option value="0" selected=""> <?php echo _('Selecione o tipo de solo') ?>... </option>
+                                        <?php
+                                        $solos = $main->get_solos();
+                                        foreach ($solos as $solo) {
+                                            ?>
+                                            <option value="<?php echo $solo['id']; ?>"
+                                                        <?php echo _("{$solo['tipo']}"); ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="cols-lg-12 center-block" style="margin-top:10px">
+                                    <input type="button" class="btn btn-success" onclick="salvar_cultura()" value="<?php echo _("Salvar solo"); ?>">
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+            </div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 center-block" style="margin-top:10px">
