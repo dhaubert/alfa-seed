@@ -38,7 +38,7 @@ class Estacoes{
         $dados_estacoes = new dados_estacoes();
         $estacoes = $dados_estacoes->lista_estacoes_INMET();
         foreach($estacoes as $estacao){ //percorre estações
-            for($i = 15; $i > 0; $i--){ //percorre datas
+            for($i = 90; $i > 0; $i--){ //percorre datas
                 $data_BR = date('d/m/Y', strtotime("-$i days"));
                 $data = date('Y-m-d', strtotime("-$i days"));
                 $estacao_id = $estacao['estacao_id'];

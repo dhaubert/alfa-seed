@@ -21,7 +21,6 @@ function enviar_arquivo() {
 
 }
 function helpers() {
-
     $("#help_nome_cultura").popover({
         placement: 'bottom', // top, bottom, left or right
         html: 'true',
