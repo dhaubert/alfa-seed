@@ -36,20 +36,21 @@ $main = new principal('mapa');
         <!-- Agrupamento dos marcadores -->
         <script src="../js/mapas/markerclusterer.js"></script>
         <script src="../js/mapas/mapa.js"></script>
-        <title>Alfa Seed Software - <?php echo _('Configuração')?></title>
+        <title>Alfa Seed Software - <?php echo _('Configuração') ?></title>
 
     </head>
     <body>
         <form id="form_parametros" action="../resultados/index.php" method="POST">
-            <input type="hidden" id="resultados_estacao" name="resultados_estacao" value="<?php echo $_POST['resultados_estacao']?>"/>
-            <input type="hidden" id="resultados_cultura" name="resultados_cultura" value="<?php echo $_POST['resultados_cultura']?>"/>
-            <input type="hidden" id="resultados_data_semeadura" name="resultados_data_semeadura" value="<?php echo $_POST['resultados_data_semeadura']?>"/>
+            <input type="hidden" id="resultados_estacao" name="resultados_estacao" value="<?php echo $_POST['resultados_estacao'] ?>"/>
+            <input type="hidden" id="resultados_cultura" name="resultados_cultura" value="<?php echo $_POST['resultados_cultura'] ?>"/>
+            <input type="hidden" id="resultados_data_semeadura" name="resultados_data_semeadura" value="<?php echo $_POST['resultados_data_semeadura'] ?>"/>
         </form>
         <nav id="menu" class="navbar navbar-default menu" role="navigation">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/index.php">Alfa Seed Software</a>
+                    <a class="navbar-brand" onclick="acessa_pagina('alfaseed');">Alfa Seed Software</a>
+
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -205,7 +206,7 @@ $main = new principal('mapa');
                                                                         '<?php echo $cultura['temperatura_base']; ?>',
                                                                         '<?php echo $cultura['temperatura_superior']; ?>'
                                                                         );">
-                                                        <?php echo utf8_encode($cultura['cultura']); ?>
+                                                        <?php echo $cultura['cultura']; ?>
                                             </option>
                                             <?php
                                         }

@@ -69,6 +69,7 @@ class dados_culturas {
         $result = mysql_query($query);
         echo mysql_error();
         while ($l = mysql_fetch_assoc($result)) {
+            $l['cultura'] = utf8_encode($l['cultura']);
             $dados[] = $l;
         }
         return $dados;

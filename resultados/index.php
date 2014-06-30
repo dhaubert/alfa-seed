@@ -6,7 +6,7 @@ $estacao_id = $_POST['resultados_estacao'];
 $cultura_id = $_POST['resultados_cultura'];
 $cultura = $main->get_culturas($cultura_id);
 $estacao = $main->get_estacoes($estacao_id);
-$data_inicial = $_POST['resultados_data_semeadura'] ;
+$data_inicial = $_POST['resultados_data_semeadura'];
 $data_final = date('Y-m-d');
 $resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $data_final);
 ?>
@@ -46,7 +46,8 @@ $resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/index.php">Alfa Seed Software</a>
+                    <a class="navbar-brand" onclick="acessa_pagina('alfaseed');">Alfa Seed Software</a>
+
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -74,7 +75,8 @@ $resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $
                 </div>
             </div>
             <?php die;
-        } ?>
+        }
+        ?>
 
         <div class="container">
             <div class="row ">

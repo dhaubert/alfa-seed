@@ -1,18 +1,11 @@
 <?php
 include_once('../controller/principal.php');
-//FAZER GRAFICO DE BARRAS E PONTOS (X = TEMPERATURA E Y É UMIDADE)
-//FAZER GRAFICO DE CHUVA PARA AS DATAS
-//FAZER GRAFICO PARA ETC E GRAUS DIA
-//Exibir tabela com todos os dados
 $main = new principal();
 $estacao_id = $_POST['resultados_estacao'];
-//$estacao_id = 'A803';
 $cultura_id = $_POST['resultados_cultura'];
-//$cultura_id = '16';
 $cultura = $main->get_culturas($cultura_id);
 $estacao = $main->get_estacoes($estacao_id);
 $data_inicial = $_POST['resultados_data_semeadura'];
-//$data_inicial = '2014-03-05';
 $data_final = date('Y-m-d');
 $resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $data_final);
 list($series_kc, $min_kc, $max_kc) = $main->serialize_kc($resultados, 'kc', 0);
@@ -21,7 +14,6 @@ list($series_vento, $min_vento, $max_vento) = $main->serialize($resultados, 'ven
 list($series_temperatura, $min_temperatura, $max_temperatura) = $main->serialize($resultados, 'temperatura_ar', 0);
 list($series_umidade, $min_umidade, $max_umidade) = $main->serialize($resultados, 'umidade', 0);
 list($series_eto, $min_eto, $max_eto) = $main->serialize($resultados, 'eto', 0);
-//$series_graus_dia = $main->serialize($resultados, 'GD_diario', 0);
 list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
 ?>
 <!doctype html>
@@ -62,7 +54,7 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/index.php">Alfa Seed Software</a>
+                    <a class="navbar-brand" onclick="acessa_pagina('alfaseed');">Alfa Seed Software</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -182,6 +174,7 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
                                     }
                                 },
                                 min: <?php echo $min_gda ?>,
+                                max: <?php echo $max_gda ?>,
                                 labels: {
                                     format: '{value} <?php echo _('GDA') ?>',
                                     style: {

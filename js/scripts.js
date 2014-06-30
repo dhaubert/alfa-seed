@@ -10,14 +10,14 @@ function enviar_arquivo() {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '../configuracao.php', true);
     xhr.send(formData);
-      $.ajax({
-         type: 'POST',
-         data: formData,
-         url: '../controller/requisicoes_ajax.php',
-         enctype: 'multipart/form-data'
-      }).done(function(retorno){
-          alert(retorno);
-      });
+    $.ajax({
+        type: 'POST',
+        data: formData,
+        url: '../controller/requisicoes_ajax.php',
+        enctype: 'multipart/form-data'
+    }).done(function(retorno) {
+        alert(retorno);
+    });
 
 }
 function helpers() {
@@ -170,7 +170,7 @@ function maximizar() {
 }
 function carrega_parametros() {
     var estacao_id = $('#resultados_estacao').val();
-    
+
     if (estacao_id != "") {
         atualiza_mapa(estacao_id);
         $("#estacoes option[value='" + estacao_id + "']").attr('selected', 'selected');
@@ -190,8 +190,18 @@ function carrega_parametros() {
         $('#data_plantio').val(date_plantio);
     }
 }
-function acessa_pagina(secao) {
-    $('#form_parametros').attr('action', '../' + secao + '/index.php');
+function acessa_pagina(secao, index) {
+
+    if (secao == "alfaseed") {
+        $('#form_parametros').attr('action', '../index.php');
+    }
+    else {
+        if (index != 1) {
+            $('#form_parametros').attr('action', '../' + secao + '/index.php');
+        } else {
+            $('#form_parametros').attr('action', secao + '/index.php');
+        }
+    }
     $('#form_parametros').submit();
 }
 function alterna_clima() {

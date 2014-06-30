@@ -47,7 +47,7 @@
                     <?php if(isset($_POST['resultados_estacao']) && isset($_POST['resultados_cultura'])&& isset($_POST['resultados_data_semeadura'])){ ?>
                     <div class="service col-md-4">
                         <h1>
-                            <a onclick="acessa_pagina('configuracao')">
+                            <a onclick="acessa_pagina('configuracao',1)">
                                 <i class="fa fa-gear fa-large"></i><br/>
                                 <span class="text"><?php echo _("Configuração"); ?></span>
                             </a>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="service col-md-4">
                         <h1>
-                            <a onclick="acessa_pagina('resultados')">
+                            <a onclick="acessa_pagina('resultados',1)">
                                     <i class="fa fa-tint fa-large"></i><br/>
                                     <span class="text"><?php echo _("Resultados"); ?></span>
                                 </a>
@@ -63,10 +63,10 @@
                     </div>
                     <div class="service col-md-4">
                         <h1>
-                            <a onclick="acessa_pagina('graficos')">
+                            <a onclick="acessa_pagina('graficos',1)">
                                     <i class="fa fa-bar-chart-o fa-large"></i><br/>
-                                    <span class="text"><?php echo _("Simulações"); ?></span>
-                                </a>
+                                    <span class="text"><?php echo _("Gráficos"); ?></span>
+                            </a>
                         </h1>
                     </div>
                     <?php } 
