@@ -173,8 +173,15 @@ function carrega_parametros() {
     if (estacao_id != "") {
         atualiza_mapa(estacao_id);
         $("#estacoes option[value='" + estacao_id + "']").attr('selected', 'selected');
-        var cultura_id = $('#resultados_cultura').val();
+        
     }
+    var solo_id = $('#resultados_solo').val();
+    if (solo_id != "") {
+        atualiza_mapa(estacao_id);
+        $("#solos option[value='" + solo_id + "']").attr('selected', 'selected');
+        
+    }
+    var cultura_id = $('#resultados_cultura').val();
     if (cultura_id != "") {
         if (cultura_id > 100) {
             alterna_cultura();
@@ -319,6 +326,10 @@ function atualiza_mapa(estacao_id) {
         initialize();
         carregarPontos();
     });
+}
+function salvar_solo(){
+    var solo_id = $('#resultados_solo').val();
+    $('#resultados_solo').val(solo_id);
 }
 function atualiza_tabela(kc_ini, kc_mid, kc_end, gd_ini, gd_mid, gd_dev, gd_late, tbase, tupper) {
     $('#kcini').text(kc_ini);

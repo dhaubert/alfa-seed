@@ -3,11 +3,14 @@ include_once('../controller/principal.php');
 $main = new principal();
 $estacao_id = $_POST['resultados_estacao'];
 $cultura_id = $_POST['resultados_cultura'];
+$solo_id = $_POST['resultados_solo'];
+$data_inicial = $_POST['resultados_data_semeadura'];
+
 $cultura = $main->get_culturas($cultura_id);
 $estacao = $main->get_estacoes($estacao_id);
-$data_inicial = $_POST['resultados_data_semeadura'];
 $data_final = date('Y-m-d');
-$resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $data_final);
+
+$resultados = $main->busca_resultados($solo_id, $cultura_id, $estacao_id, $data_inicial, $data_final);
 list($series_kc, $min_kc, $max_kc) = $main->serialize_kc($resultados, 'kc', 0);
 list($series_chuvas, $min_chuvas, $max_chuvas) = $main->serialize($resultados, 'chuva', 0);
 list($series_vento, $min_vento, $max_vento) = $main->serialize($resultados, 'vento', 0);
@@ -15,6 +18,7 @@ list($series_temperatura, $min_temperatura, $max_temperatura) = $main->serialize
 list($series_umidade, $min_umidade, $max_umidade) = $main->serialize($resultados, 'umidade', 0);
 list($series_eto, $min_eto, $max_eto) = $main->serialize($resultados, 'eto', 0);
 list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
+list($series_raiz, $min_raiz, $max_raiz) = $main->serialize($resultados, 'prof_raiz', 0);
 ?>
 <!doctype html>
 <html lang = "pt_BR">
@@ -49,6 +53,7 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
             <input type="hidden" id="resultados_estacao" name="resultados_estacao" value="<?php echo $_POST['resultados_estacao'] ?>"/>
             <input type="hidden" id="resultados_cultura" name="resultados_cultura" value="<?php echo $_POST['resultados_cultura'] ?>"/>
             <input type="hidden" id="resultados_data_semeadura" name="resultados_data_semeadura" value="<?php echo $_POST['resultados_data_semeadura'] ?>"/>
+            <input type="hidden" id="resultados_solo" name="resultados_solo" value="<?php echo $_POST['resultados_solo'] ?>"/>
         </form>
         <nav id="menu" class="navbar navbar-default menu" role="navigation">
             <div class="container-fluid">
@@ -105,6 +110,11 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
         <div class="container">
             <div class="row ">
                 <div class="col-md-12">
+                    <div id="grafico_raiz" ></div>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-12">
                     <div id="grafico_kc" ></div>
                 </div>
             </div> 
@@ -114,6 +124,7 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
                     <div id="grafico_temperatura" ></div>
                 </div>
             </div> 
+
         </div>
         <hr/>
         <!--<script src="../js/Highcharts-4.0.1/js/themes/dark-unica.js"></script>-->
@@ -122,16 +133,16 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
                 $(function() {
                     Highcharts.setOptions({
                         lang: {
-                            months: ['<?php echo _('Janeiro')?>', '<?php echo _('Fevereiro')?>', '<?php echo _('Março')?>',
-                                '<?php echo _('Abril')?>', '<?php echo _('Maio')?>', '<?php echo _('Junho')?>',
-                                '<?php echo _('Julho')?>', '<?php echo _('Agosto')?>', '<?php echo _('Setembro')?>',
-                                '<?php echo _('Outubro')?>', '<?php echo _('Novembro')?>', '<?php echo _('Dezembro')?>'],
-                            weekdays: ['<?php echo _('Domingo')?>', '<?php echo _('Segunda-feira')?>', '<?php echo _('Terça-feira')?>',
-                                        '<?php echo _('Quarta-feira')?>', '<?php echo _('Quinta-feira')?>', '<?php echo _('Sexta-Feira')?>',
-                                        '<?php echo _('Sábado')?>']
+                            months: ['<?php echo _('Janeiro') ?>', '<?php echo _('Fevereiro') ?>', '<?php echo _('Março') ?>',
+                                '<?php echo _('Abril') ?>', '<?php echo _('Maio') ?>', '<?php echo _('Junho') ?>',
+                                '<?php echo _('Julho') ?>', '<?php echo _('Agosto') ?>', '<?php echo _('Setembro') ?>',
+                                '<?php echo _('Outubro') ?>', '<?php echo _('Novembro') ?>', '<?php echo _('Dezembro') ?>'],
+                            weekdays: ['<?php echo _('Domingo') ?>', '<?php echo _('Segunda-feira') ?>', '<?php echo _('Terça-feira') ?>',
+                                '<?php echo _('Quarta-feira') ?>', '<?php echo _('Quinta-feira') ?>', '<?php echo _('Sexta-Feira') ?>',
+                                '<?php echo _('Sábado') ?>']
                         }
                     });
-                    $('#grafico_kc').highcharts({
+                    $('#grafico_raiz').highcharts({
                         chart: {
                             zoomType: 'xy'
                         },
@@ -220,6 +231,95 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
 
                             }]
                     });
+                    $('#grafico_kc').highcharts({
+                        chart: {
+                            zoomType: 'xy'
+                        },
+                        title: {
+                            text: 'Curva do coeficiente de cultura'
+                        },
+                        subtitle: {
+                            text: '<?php echo $cultura[0]['cultura'] ?>'
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            dateTimeLabelFormats: {// don't display the dummy year
+                                month: '%e. %b',
+                                year: '%b'
+                            },
+                            title: {
+                                text: 'Data'
+                            },
+                        },
+                        yAxis: [{// Primary yAxis
+                                labels: {
+                                    format: '{value}',
+                                    style: {
+                                        color: '#308E4B'
+                                    }
+                                },
+                                title: {
+                                    text: '<?php echo _('Coeficiente de cultura') ?>',
+                                    style: {
+                                        color: '#308E4B'
+                                    }
+                                },
+                                min: <?php echo round($min_raiz, 2) ?>,
+                                max: <?php echo round($max_raiz, 2) ?>
+                            }, {// Secondary yAxis
+                                title: {
+                                    text: '<?php echo _('Acúmulo Térmico') ?>',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[3]
+                                    }
+                                },
+                                min: <?php echo $min_gda ?>,
+                                max: <?php echo $max_gda ?>,
+                                labels: {
+                                    format: '{value} <?php echo _('GDA') ?>',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[3]
+                                    }
+                                },
+                                opposite: true
+                            }],
+                        tooltip: {
+                            shared: true
+                        },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'left',
+                            x: 120,
+                            verticalAlign: 'top',
+                            y: 0,
+                            floating: true,
+                            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                        },
+                        series: [
+                            {
+                                name: '<?php echo _('Acúmulo Térmico (GDA)') ?>',
+                                type: 'column',
+                                yAxis: 1,
+                                data: [<?php echo $series_gda; ?>],
+                                color: Highcharts.getOptions().colors[3],
+                                tooltip: {
+                                    valueSuffix: ' GDA'
+                                }
+                            }, {
+                                name: '<?php echo _('Coeficiente de cultura') ?> (KC)',
+                                type: 'spline',
+                                data: [<?php echo $series_raiz; ?>],
+                                color: '#308E4B',
+                                marker: {
+                                    enabled: true,
+                                },
+//                                tooltip: {
+//                                    valueSuffix: ' mm'
+//                                }
+
+
+                            }]
+                    });
                 });
 //                 $(function () {
                 $('#grafico_temperatura').highcharts({
@@ -288,7 +388,7 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
 //                             }, {// Secondary yAxis
 //                            gridLineWidth: 0,
 //                            title: {
-//                                text: '<?php // echo _('Evapotranspiração de referência')  ?>',
+//                                text: '<?php // echo _('Evapotranspiração de referência')    ?>',
 //                                style: {
 //                                    color: '#308E4B'
 //                                }
@@ -307,6 +407,7 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
                                     color: '#3D3D3D',
                                 }
                             },
+                            max: 5,
                             labels: {
                                 format: '{value} m/s',
                                 style: {
@@ -350,10 +451,10 @@ list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
                                 valueSuffix: ' %'
                             }
 //                        }, {
-//                            name: '<?php // echo _('Evapotranspiração de Referência (ETo)')  ?>',
+//                            name: '<?php // echo _('Evapotranspiração de Referência (ETo)')    ?>',
 //                            type: 'spline',
 //                            yAxis: 3,
-//                            data: [<?php // echo $series_eto;  ?>],
+//                            data: [<?php // echo $series_eto;    ?>],
 //                            color: '#308E4B',
 //                            marker: {
 //                                fillColor: "#FFFFFF", 

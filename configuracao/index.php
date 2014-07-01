@@ -44,6 +44,7 @@ $main = new principal('mapa');
             <input type="hidden" id="resultados_estacao" name="resultados_estacao" value="<?php echo $_POST['resultados_estacao'] ?>"/>
             <input type="hidden" id="resultados_cultura" name="resultados_cultura" value="<?php echo $_POST['resultados_cultura'] ?>"/>
             <input type="hidden" id="resultados_data_semeadura" name="resultados_data_semeadura" value="<?php echo $_POST['resultados_data_semeadura'] ?>"/>
+            <input type="hidden" id="resultados_solo" name="resultados_solo" value="<?php echo $_POST['resultados_solo'] ?>"/>
         </form>
         <nav id="menu" class="navbar navbar-default menu" role="navigation">
             <div class="container-fluid">
@@ -356,7 +357,7 @@ $main = new principal('mapa');
                     </div>
                     <div class="container">
                         <div class="row">
-                            <div class="cols-lg-12 center-block" style="margin-top:10px">
+                            <div class="cols-lg-6 center-block" style="margin-top:10px">
                                 <input type="button" class="btn btn-success" onclick="salvar_solo()" value="<?php echo _("Salvar solo"); ?>">
                             </div>
                         </div>

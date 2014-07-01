@@ -1,14 +1,16 @@
 <?php
 include_once('../controller/principal.php');
-
 $main = new principal();
 $estacao_id = $_POST['resultados_estacao'];
 $cultura_id = $_POST['resultados_cultura'];
+$solo_id = $_POST['resultados_solo'];
+$data_inicial = $_POST['resultados_data_semeadura'];
+
 $cultura = $main->get_culturas($cultura_id);
 $estacao = $main->get_estacoes($estacao_id);
-$data_inicial = $_POST['resultados_data_semeadura'];
 $data_final = date('Y-m-d');
-$resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $data_final);
+
+$resultados = $main->busca_resultados($solo_id, $cultura_id, $estacao_id, $data_inicial, $data_final);
 ?>
 <!doctype html>
 <html lang = "pt_BR">
@@ -41,6 +43,7 @@ $resultados = $main->busca_resultados($cultura_id, $estacao_id, $data_inicial, $
             <input type="hidden" id="resultados_estacao" name="resultados_estacao" value="<?php echo $_POST['resultados_estacao'] ?>"/>
             <input type="hidden" id="resultados_cultura" name="resultados_cultura" value="<?php echo $_POST['resultados_cultura'] ?>"/>
             <input type="hidden" id="resultados_data_semeadura" name="resultados_data_semeadura" value="<?php echo $_POST['resultados_data_semeadura'] ?>"/>
+            <input type="hidden" id="resultados_solo" name="resultados_solo" value="<?php echo $_POST['resultados_solo'] ?>"/>
         </form>
         <nav id="menu" class="navbar navbar-default menu" role="navigation">
             <div class="container-fluid">

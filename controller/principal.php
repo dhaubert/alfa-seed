@@ -132,13 +132,15 @@ class principal {
         $estacoes->baixa_dados_INMET($estacao_id, $data_inicial);
     }
 
-    function busca_resultados($cultura_id, $estacao_id, $data_inicial, $data_final = NULL) {
+    function busca_resultados($solo_id, $cultura_id, $estacao_id, $data_inicial, $data_final = NULL) {
         $culturas = new Culturas();
         $cultura = $culturas->busca_culturas($cultura_id);
+        $solos = new Solos();
+        $solo = $solos->busca_solos($solo_id);
         $estacoes = new Estacoes();
         $medias = $estacoes->busca_medias_diarias($estacao_id, $data_inicial, $data_final);
         $calculo = new Calculo();
-        $dados = $calculo->calcula_resultados($medias, $cultura[0]);
+        $dados = $calculo->calcula_resultados($medias, $cultura[0], $solo[0]);
         return $dados;
     }
 

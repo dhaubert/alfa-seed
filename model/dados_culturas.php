@@ -17,8 +17,11 @@ class dados_culturas {
                         gda_mid,
                         gda_dev,
                         gda_late,
+                        altura,
                         temperatura_base,
                         temperatura_superior,
+                        prof_max_raiz,
+                        prof_min_raiz,
                         externa
                          )
                  VALUES
@@ -33,6 +36,8 @@ class dados_culturas {
                         '{$dados_cultura['gda_late']}',
                         '{$dados_cultura['temp_base']}',
                         '{$dados_cultura['temp_superior']}',
+                        '1.5',
+                        '0.3',
                         '1'    
                           )
             ";
@@ -57,7 +62,9 @@ class dados_culturas {
                     gda_dev,
                     gda_late,
                     temperatura_base,
-                    temperatura_superior
+                    temperatura_superior,
+                    prof_max_raiz,
+                    prof_min_raiz
                FROM
                     culturas
                WHERE
