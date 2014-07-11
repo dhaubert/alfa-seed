@@ -32,7 +32,10 @@ class Estacoes {
         return $dados;
     }
 
-
+    function busca_ultimo_dado($estacao_id){
+        $dados_estacoes = new dados_estacoes();
+        return $dados_estacoes->busca_ultimo_dado($estacao_id);
+    }
     function busca_dados_recentes($estacao_id) {
         $dados_estacoes = new dados_estacoes();
         $ultimo_tempo =  $dados_estacoes->busca_ultimo_dado($estacao_id);

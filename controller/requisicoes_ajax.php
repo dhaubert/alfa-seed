@@ -1,6 +1,6 @@
 <?php
-$_POST['request'] = 'busca_dados_recentes';
-$_POST['estacao_id'] = 'A803';
+
+$_POST['request'] = 'busca_eto';
 switch ($_POST['request']) {
     case 'salvar_clima_inmet': {
             include_once ('principal.php');
@@ -30,17 +30,13 @@ switch ($_POST['request']) {
             include_once ('principal.php');
             $main = new principal();
             $dados = $main->busca_eto();
-            echo "<pre>";
-            print_r($dados);
-            echo "</pre>";
+            echo $dados;
         die;
     case 'busca_dados_recentes':
             include_once ('principal.php');
             $main = new principal();
             $dados = $main->get_json_dados_recentes($_POST['estacao_id']);
-            echo "<pre>";
-            print_r($dados);
-            echo "</pre>";
+            echo $dados;
         die;    
 }
 
