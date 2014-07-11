@@ -5,6 +5,40 @@ class dados_estacoes {
     function dados_estacoes() {
         require_once ("database.php");
     }
+    function busca_ultimo_dado($estacao_id){
+        $sql = 
+                "SELECT
+                    MAX(data) as data, hora
+                 FROM 
+                    dados_estacoes
+                 WHERE
+                    estacao_id = '$estacao_id';
+                 ";
+        $res = mysql_query($sql);
+        return mysql_fetch_array($res);
+    }
+    function busca_dados_recentes($estacao_id, $ultimo_tempo) {
+        $sql = "
+                SELECT
+                    *
+                FROM
+                    dados_estacoes de
+                    JOIN estacoes USING (estacao_id)
+                WHERE
+                    data = '{$ultimo_tempo['data']}'
+                    AND hora = '{$ultimo_tempo['hora']}'
+                    AND de.estacao_id = '$estacao_id'
+                ";
+        echo "<pre>";
+        print_r($sql);
+        echo "</pre>";
+        $result = mysql_query($sql);
+        $dados = mysql_fetch_assoc($result);
+        echo "<pre>";
+        print_r($dados);
+        echo "</pre>";
+        return $dados;
+    }
     function busca_medias_diarias($estacao_id, $data_inicial, $data_final){
         if(empty($data_final)){
             $data_final = date('Y-m-d');
@@ -14,7 +48,6 @@ class dados_estacoes {
                     de.estacao_id,
                     e.nome AS estacao,
                     e.latitude,
-                    (e.latitude * 3.141592654 / 180) AS latitude_radianos,
                     e.altitude,
                     de.data,
                     COUNT(*) AS numero_registros,
@@ -29,9 +62,9 @@ class dados_estacoes {
                     AVG(de.velocidade_vento) AS vento,
                     (SUM(de.precipitacao) + 0) AS chuva,
                     (SUM(de.precipitacao) * 0.8) AS chuva_efetiva,
-                    AVG(IF(de.radiacao >= 30, de.radiacao, NULL)) radiacao,
-                    SUM(IF(de.radiacao >= 30, de.radiacao, NULL)) radiacao_soma,
-                    SUM(IF(de.radiacao >= 30, 1, 0)) insolacao
+                    AVG(IF(de.radiacao >= 30, de.radiacao, NULL)) AS radiacao,
+                    SUM(IF(de.radiacao >= 30, de.radiacao, NULL)) AS radiacao_soma,
+                    SUM(IF(de.radiacao >= 30, 1, 0)) AS  insolacao
             FROM  
                 dados_estacoes  de
                 JOIN estacoes e USING (estacao_id)
@@ -130,7 +163,9 @@ class dados_estacoes {
                         de.estacao_id = '{$estacao_id}'
                         AND de.data BETWEEN '$data_inicial' AND '$data_final'
                  ";
-        
+        echo "<pre>";
+        print_r($sql);
+        echo "</pre>------------";
         $res = mysql_query($sql);
         while ($estacao = mysql_fetch_assoc($res)) {
             $dados[] = $estacao;

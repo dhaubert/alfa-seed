@@ -2,20 +2,23 @@
 
 class Calculo {
 
-    private $coef_reflexao = 0.23; //coeficiente de reflexão da vegetação
+    private $coef_reflexao = 0.23; //coeficiente de reflexão da vegetação (albedo)
     private $as = 0.25;
     private $bs = 0.5;
     private $const_sb = 4.903E-9; //coeficiente de Stefan-Boltzmann 4,903 x 10^-9 - em MJm^-2/d
-    private $Tbase = 10;
-    private $Tupper = 32;
 
     function calcula_medias($estacao_id, $data_inicial, $data_final = NULL) {
         $estacoes = new Estacoes();
         $medias = $estacoes->busca_medias_diarias($estacao_id, $data_inicial, $data_final);
         return $medias;
     }
-
-    function calcula_resultados($medias, $cultura) {
+    function calcula_eto($medias){
+        for ($i = 0; $i < count($medias); $i++) {
+            $medias[$i] = $this->ETo($medias[$i]);
+        }
+        return $medias;
+    }
+    function calcula_resultados($medias, $cultura, $solo) {
         $GDD = 0;
         for ($i = 0; $i < count($medias); $i++) {
             $medias[$i] = $this->ETo($medias[$i]);
@@ -24,8 +27,11 @@ class Calculo {
                 $medias[0]['GD_acumulado'] = 0;
                 $medias[0]['GD_diario'] = 0;
             }
-            $medias[$i] = $this->ETc($medias[$i], $cultura);
+            $medias[$i] = $this->ETc($medias[$i], $cultura, $solo);
             $GDD = $medias[$i]['GD_acumulado'];
+            $Ks = $this->Ks($cultura, $solo, $media);
+            $Etr = $this->ETr($ETc, $Ks);
+            $medias[$i]['Etr'] = $ETr; 
         }
         return $medias;
     }
@@ -46,7 +52,8 @@ class Calculo {
         //saturation vapour pressure at the min temperature T
         $EoT_min = 0.6108 * exp((17.27 * $Tmin) / ($Tmin + 237.3)); //equação 11
         // (Es) Pressão de vapor de saturação - medido em kPa
-        return array($this->media(array($EoT_max, $EoT_min)), $EoT_max, $EoT_min); //equação 12
+        $Es = $this->media(array($EoT_max, $EoT_min));
+        return array($Es, $EoT_max, $EoT_min); //equação 12
     }
 
     //Atmospheric pressure (P) - equação 7
@@ -81,31 +88,34 @@ class Calculo {
         $Ws = acos(-tan($latitude_radianos) * tan($Ds)); //equação 25
         // (Ra) Radiação solar no topo da atmosfera
         $Ra = (24 * 60 / M_PI) * 0.0820 * $Dr * ($Ws * sin($latitude_radianos) * sin($Ds) + cos($latitude_radianos) * cos($Ds) * sin($Ws)); //equação 21
-
         return array($Ra, $Ws);
     }
 
     // Solar radiation (Rs) - equação 35
     function radiacao_solar($Ra, $insolacao, $Ws) {
         $N = 24 * $Ws / M_PI; //Daylight hours (N) - equação 34
-        return (($this->as + $this->bs) * ($N / $insolacao) ) * $Ra; //equação 35
+        $Rs = (($this->as + $this->bs) * ($N / $insolacao) ) * $Ra; //equação 35
+        return $Rs;
     }
 
     //Clear-sky solar radiation (Rso) - equação 37
     function radiacao_ceu_limpo($altitude, $Ra) {
-        return (0.75 + 2E-5 * $altitude) * $Ra;
+        $Rso = (0.75 + 2E-5 * $altitude) * $Ra;
+        return $Rso;
     }
 
     //Net solar or net shortwave radiation (Rns)  - equação 38
     function radiacao_ondas_curtas($Rs) {
-        return (1 - $this->coef_reflexao) * $Rs;
+        $Rns = (1 - $this->coef_reflexao) * $Rs;
+        return $Rns;
     }
 
     //Net longwave radiation (Rnl)  - equação 39
     function radiacao_ondas_longas($Tmax, $Tmin, $Ea, $Rs, $Rso) {
         $TmaxK = $Tmax + 273.16;
         $TminK = $Tmin + 273.16;
-        return $this->const_sb * ((pow($TmaxK, 4) + pow($TminK, 4)) / 2) * (0.34 - 0.14 * sqrt($Ea)) * (1.35 * ($Rs / $Rso) - 0.35);
+        $Rnl = $this->const_sb * ((pow($TmaxK, 4) + pow($TminK, 4)) / 2) * (0.34 - 0.14 * sqrt($Ea)) * (1.35 * ($Rs / $Rso) - 0.35);
+        return $Rnl;
     }
 
     function ETo($medias) {
@@ -153,7 +163,7 @@ class Calculo {
         list($Ra, $Ws) = $this->radiacao_terrestre($J, $latitude_radianos);
         // (Rs) Radiação solar medida
         $Rs = $radiacao_soma * 0.0036; //conversao para MJ
-        if ($Rs > 21.39) { //em caso de omissão de radiacao da estação ou medição incorreta
+        if ($Rs > 21.39 || $Rs < 0) { //em caso de omissão de radiacao da estação ou medição incorreta
             // (Rs) Radiação solar calculada
             $Rs = $this->radiacao_solar($Ra, $insolacao, $Ws);
         }
@@ -192,70 +202,96 @@ class Calculo {
         return $media;
     }
 
-    function ETc($medias, $cultura) {
-//        echo "<pre>->";
-//        print_r($cultura);
-//        echo "</pre>";
+    function ETc($medias, $cultura, $solo) {
         $ETo = $medias['eto'];
         $GDD = $medias['GD_acumulado'];
-//        $Kc = $cultura['kc_ini'];
         $Kc = $this->Kc_linear($cultura, $GDD);
         //construcao da curva do coeficiente de cultura
         $medias['estagio'] = 'inicial';
-//        $medias['estagio'] = '1';
-        if ($GDD >= $cultura['gda_ini']) { //from sowing to emergence
-//           $Kc = $this->Kc_linear($cultura, $GDD);
+        if ($GDD >= $cultura['gda_ini']) { 
             $medias['estagio'] = 'development';
-//            $medias['estagio'] = '2';
         }
-        if ($GDD >= $cultura['gda_dev']) { //flowering
-//            $Kc = $cultura['kc_mid'];
+        if ($GDD >= $cultura['gda_dev']) { 
             $medias['estagio'] = 'mid-season';
-//            $medias['estagio'] = '3';
         }
         if ($GDD >= $cultura['gda_mid']) {
-//            $Kc = $this->Kc_linear($cultura, $GDD);
             $medias['estagio'] = 'late-season';
-//            $medias['estagio'] = '4';
         }
         if ($GDD >= $cultura['gda_late']) {
-//            $Kc = $cultura['kc_end']; //alteracao
-//            $medias['estagio'] = '5';
             $medias['estagio'] = 'mature';
         }
-
+//        
+        $medias['prof_raiz'] = $this->profundidade_raiz($cultura, $medias['estagio'], $Kc);
+//        $medias['CAD'] = $this->agua_disponivel_solo($solo, $medias['prof_raiz']);
         //evapotranspiração da cultura - equação 58
         $ETc = $Kc * $ETo;
         $medias['etc'] = $ETc;
+        $medias['irrigacao'] = $ETc - $medias['chuva_efetiva'];
         return $medias;
     }
-
+    
     function Kc_linear($cultura, $GD_acumulado) {
-        foreach ($cultura as $k => $v) {
-            $$k = $v;
-        }
-        $GD_ini_dev = $gda_dev - $gda_ini;
-        $GD_mid_late = $gda_late - $gda_mid;
-        if ($GD_acumulado <= $gda_ini) {
-            return $kc_ini;
+        $GD_ini_dev = $cultura['gda_dev'] - $cultura['gda_ini'];
+        $GD_mid_late = $cultura['gda_late'] - $cultura['gda_mid'];
+        if ($GD_acumulado <= $cultura['gda_ini']) { //inicial
+            return $cultura['kc_ini'];
         } else {
-            if ($GD_acumulado < $gda_dev ) {
-                return $kc_ini + ($GD_acumulado - $gda_ini) / $GD_ini_dev * ($kc_mid - $kc_ini);
+            if ($GD_acumulado < $cultura['gda_dev'] ) { //crescimento
+                return $cultura['kc_ini'] + ($GD_acumulado - $cultura['gda_ini']) / $GD_ini_dev * ($cultura['kc_mid'] - $cultura['kc_ini']);
             } else {
-                if ($GD_acumulado <= $gda_mid) {
-                    return $kc_mid;
+                if ($GD_acumulado <= $cultura['gda_mid']) { //intermediario
+//                    return $this->Kc_mid_ajustado($media, $cultura);
+                    return $cultura['kc_mid'];
                 } else {
-                    if ($GD_acumulado < $gda_late) {
-                        return $kc_mid + ($GD_acumulado - $gda_mid) / $GD_mid_late * ($kc_end - $kc_mid);
+                    if ($GD_acumulado < $cultura['gda_late']) { //final
+                        return $cultura['kc_mid'] + ($GD_acumulado - $cultura['gda_mid']) / $GD_mid_late * ($cultura['kc_end'] - $cultura['kc_mid']);
                     } else {
-                        return $kc_end;
+                        return $cultura['kc_end'];
                     }
                 }
             }
         }
         return $kc_ini;
     }
-
+    function ETr($ETc, $Ks){
+        return $ETc * $Ks;
+    }
+    /* Fator de estresse hídrico */
+    function Ks($cultura, $solo, $media){
+        $profundidade_raiz = $this->profundidade_raiz($cultura, $media['estagio'], $media['kc']);
+        $TAW = $this->TAW($solo, $profundidade_raiz);
+        $RAW = $this->RAW($cultura, $TAW);
+        $Ks = ($TAW - $cultura['Dr']) / $TAW - $RAW;
+        return $Ks;
+    }
+    function rendimento_real($cultura, $ETc, $ETr){
+        $Ymax = $cultura['produtividade_maxima'];
+        $Ky = $cultura['ky'];
+        $Yreal = $Ymax *(1-$Ky*(1-$ETr/$ETc));
+        return $Yreal;
+    }
+    /* TAW - total água disponível */
+    function TAW($solo, $profundidade_raiz){
+        return (1000*($solo['CC'] - $solo['PMP'])) * $profundidade_raiz;
+    }
+    /* RAW - Agua facilmente disponivel */
+    function RAW($cultura, $TAW){
+        return $cultura['p'] * $TAW;
+    }
+    function profundidade_raiz($cultura, $estagio, $kc){
+        if($estagio == 'inicial'){
+            return $cultura['prof_min_raiz'];
+        }else{
+            if($estagio == 'development'){
+                return (($kc - $cultura['kc_ini']) / ($cultura['kc_mid'] - $cultura['kc_ini'])) * 
+                (($cultura['prof_max_raiz'] - $cultura['prof_min_raiz']) + $cultura['prof_max_raiz']);
+            }
+            if($estagio == 'mid-season' || $estagio == 'late-season'){
+                return $cultura['prof_max_raiz'];
+            }
+        }
+        return $cultura['prof_max_raiz'];
+    }
 }
 ?>
 

@@ -21,9 +21,6 @@ class INMET {
     function numero_de_horas($data_inicial, $data_final){
         $data = explode('/',$data_inicial);
         $data_inicial = $data[2] . '-' . $data[1] . '-' . $data[0];
-        
-//        $data = explode('/',$data_final);
-//        $data_final = $data[2] . '-' . $data[1] . '-' . $data[0];
         $data_final = date('Y-m-d H:i:s');
         $nhoras = (int) ceil((strtotime($data_final) - strtotime($data_inicial)) / (60 * 60 ));
         return $nhoras;
@@ -129,40 +126,40 @@ class INMET {
         $i = 0;
         while ($i < count($dados[$i])) {
             if ($dados[$i]['temperatura_ar'] < -5 || $dados[$i]['temperatura_ar'] > 45) {
-                $dados[$i]['temperatura_ar'] = "null";
+                $dados[$i]['temperatura_ar'] = "NULL";
             }
             if ($dados[$i]['temperatura_maxima'] < -5 || $dados[$i]['temperatura_maxima'] > 45) {
-                $dados[$i]['temperatura_maxima'] = "null";
+                $dados[$i]['temperatura_maxima'] = "NULL";
             }
             if ($dados[$i]['temperatura_minima'] < -5 ||
                     $dados[$i]['temperatura_minima'] > 45) {
-                $dados[$i]['temperatura_minima'] = "null";
+                $dados[$i]['temperatura_minima'] = "NULL";
             }
-            if ($dados[$i]['umidade'] < 0 || $dados[$i]['umidade'] > 115) {
-                $dados[$i]['umidade'] = "null";
+            if ($dados[$i]['umidade'] < 0 || $dados[$i]['umidade'] > 120) {
+                $dados[$i]['umidade'] = "NULL";
             } else {
-                if ($dados[$i]['umidade'] > 100 && $dados[$i]['umidade'] <= 115) {
+                if ($dados[$i]['umidade'] > 100 && $dados[$i]['umidade'] <= 120) {
                     $dados[$i]['umidade'] = 100;
                 }
             }
             if ($dados[$i]['pressao'] < 300 || $dados[$i]['pressao'] > 1900) {
-                $dados[$i]['pressao'] = "null";
+                $dados[$i]['pressao'] = "NULL";
             } else {
                 $dados[$i]['pressao'] = $dados[$i]['pressao'] / 1.33;
             }
             $dados[$i]['velocidade_vento'] = $dados[$i]['velocidade_vento'] * 0.79;
             if ($dados[$i]['velocidade_vento'] < 0 || $dados[$i]['velocidade_vento'] > 30) {
-                $dados[$i]['velocidade_vento'] = "null";
+                $dados[$i]['velocidade_vento'] = "NULL";
             }
             if ($dados[$i]['velocidade_vento'] == 0) {
                 $dados[$i]['velocidade_vento'] = "0.0";
             }
             if ($dados[$i]['precipitacao'] < 0 || $dados[$i]['precipitacao'] > 100) {
-                $dados[$i]['precipitacao'] = "null";
+                $dados[$i]['precipitacao'] = "NULL";
             }
             $dados[$i]['radiacao'] = $dados[$i]['radiacao'] / 3.6;
             if ($dados[$i]['radiacao'] < 0 || $dados[$i]['radiacao'] > 2000) {
-                $dados[$i]['radiacao'] = "null";
+                $dados[$i]['radiacao'] = "NULL";
             }
             if ($dados[$i]['radiacao'] > 30) {
                 $dados[$i]['insolacao'] = "1";

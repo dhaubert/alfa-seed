@@ -64,7 +64,9 @@ class dados_culturas {
                     temperatura_base,
                     temperatura_superior,
                     prof_max_raiz,
-                    prof_min_raiz
+                    prof_min_raiz,
+                    ky,
+                    produtividade_maxima
                FROM
                     culturas
                WHERE

@@ -1,6 +1,6 @@
 <?php
 include ("../controller/principal.php");
-$main = new principal('mapa');
+$main = new principal("mapa");
 ?>
 <!doctype html>
 <html lang="pt_BR">
@@ -70,20 +70,21 @@ $main = new principal('mapa');
         </nav>
         <div class="container">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-md-12">
                     <fieldset>
                         <legend>
                             <i class="fa fa-sun-o"></i> Clima
                         </legend>
                         <div class="container">
                             <div class="row">
-                                <div class="col-xs-3">
+                                <div class="col-lg-3">
                                     <div class="btn-group ">
                                         <input onclick="alterna_clima()" id="dados_inmet" class="btn btn-success active" type="button" value="<?php echo _("Baixar dados"); ?>"/>
                                         <input onclick="alterna_clima()" id="dados_csv" class="btn btn-success" type="button" value="<?php echo _("Importar arquivo"); ?>"/>
+
                                     </div>
                                 </div>
-                                <div class="col-xs-9" >
+                                <div class="col-md-9" >
                                     <div id="loading" style="display: none">
                                         <i class="fa fa-spinner" id="spinner" style="font-size: 22px; color: #308E4B;"></i>
                                         <?php echo '&nbsp;' . _("Obtendo dados..."); ?>
@@ -96,7 +97,7 @@ $main = new principal('mapa');
                         <hr />
                         <div class="container">
                             <div id="clima_inmet" class="row">
-                                <div class="col-xs-4">
+                                <div class="col-md-4">
 
                                     <select multiple id="estacoes" name="estacoes" class="form-control" >
                                         <?php
@@ -115,12 +116,12 @@ $main = new principal('mapa');
                                         }
                                         ?>
                                     </select>
+                                    Fonte: Dados da Rede do INMET
                                 </div>
-                                <div class="col-xs-4">
-                                    <!--<div id="mapa" style="width:100%; height:260px; background-color: #308E4B">Mapa</div>-->
+                                <div class="col-md-4">
                                     <div id="map_canvas" ><?php echo _('Mapa') ?></div>
                                 </div>
-                                <div class="col-xs-4 center-block">
+                                <div class="col-md-4 center-block">
                                     <div class="input-group has-success">
                                         <span class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
@@ -134,12 +135,12 @@ $main = new principal('mapa');
                         <div class="container">
                             <form name="importar" id="clima" name="importar">
                                 <div id="clima_csv" class="row" style="display:none">
-                                    <div class="col-xs-6">
+                                    <div class="col-md-6">
                                         <div id="fileuploader">
                                             <?php echo _('Selecionar arquivo csv') ?>
                                         </div>
                                     </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-md-6">
                                         <?php echo _('Nome para a estação') . ':' ?>
                                         <input type="text" id="nome_estacao" class="form-control"/>
                                         <?php echo _('Município') . ':' ?>
@@ -157,6 +158,7 @@ $main = new principal('mapa');
                         </div>
                         <div class="container">
                             <div class="row">
+
                                 <div class="cols-lg-12 center-block" style="margin-top:10px">
                                     <input type="button" class="btn btn-success" onclick="salvar_clima()" value="<?php echo _("Salvar dados meteorológicos"); ?>">
                                 </div>
@@ -167,20 +169,20 @@ $main = new principal('mapa');
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-md-12">
                     <fieldset>
                         <legend>
                             <i class="fa fa-pagelines"></i> <?php echo _("Cultura"); ?>
                         </legend>
                         <div class="container">
                             <div class="row">
-                                <div class="col-xs-3">
+                                <div class="col-md-3">
                                     <div class="btn-group ">
                                         <input onclick="alterna_cultura()" id="sel_cultura" class="btn btn-success active" type="button" value="<?php echo _("Selecionar"); ?>"/>
                                         <input onclick="alterna_cultura()" id="add_cultura" class="btn btn-success" type="button" value="<?php echo _("Adicionar"); ?>"/>
                                     </div>
                                 </div>
-                                <div class="col-xs-9">
+                                <div class="col-md-9">
                                     <div id="mensagem_cultura"></div>
                                 </div>
                             </div>
@@ -188,7 +190,7 @@ $main = new principal('mapa');
                         <hr />
                         <div class="container">
                             <div id="tela_sel_cultura" class="row">
-                                <div class="col-xs-4">
+                                <div class="col-md-4">
                                     <select multiple id="culturas" name="culturas" class="form-control" >
                                         <option value="0" selected=""> <?php echo _('Selecione a cultura') ?>... </option>
                                         <?php
@@ -205,7 +207,9 @@ $main = new principal('mapa');
                                                                     '<?php echo $cultura['gda_dev']; ?>',
                                                                     '<?php echo $cultura['gda_late']; ?>',
                                                                     '<?php echo $cultura['temperatura_base']; ?>',
-                                                                    '<?php echo $cultura['temperatura_superior']; ?>'
+                                                                    '<?php echo $cultura['temperatura_superior']; ?>',
+                                                                    '<?php echo $cultura['ky']; ?>',
+                                                                    '<?php echo $cultura['produtividade_maxima']; ?>'
                                                                     );">
                                                         <?php echo $cultura['cultura']; ?>
                                             </option>
@@ -214,7 +218,7 @@ $main = new principal('mapa');
                                         ?>
                                     </select>
                                 </div>
-                                <div class="col-xs-8">
+                                <div class="col-md-8">
                                     <div class="table-responsive">
                                         <table class="table table-condensed">
                                             <thead>
@@ -228,6 +232,8 @@ $main = new principal('mapa');
                                                     <th><?php echo _('Estágio final') ?> <?php echo _('(GDA)') ?></th>
                                                     <th><?php echo _('Temperatura base') ?> <?php echo _('(Cº)') ?></th>
                                                     <th><?php echo _('Temperatura superior') ?> <?php echo _('(Cº)') ?></th>
+                                                    <th><?php echo _('Ky') ?></th>
+                                                    <th><?php echo _('Produção máxima') ?> <?php echo _('(ton/ha)') ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -241,6 +247,8 @@ $main = new principal('mapa');
                                                     <td id="gdlate">-</td>
                                                     <td id="tbase">-</td>
                                                     <td id="tupper">-</td>
+                                                    <td id="ky">-</td>
+                                                    <td id="prod">-</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -250,7 +258,7 @@ $main = new principal('mapa');
                         </div>
                         <div class="container">
                             <div id="tela_add_cultura" class="row" style="display:none">
-                                <div class="col-xs-12">
+                                <div class="col-md-12">
                                     <div class="table-responsive">
                                         <form name="nova_cultura" id="nova_cultura" >
                                             <table class="table table-condensed">
@@ -279,6 +287,10 @@ $main = new principal('mapa');
                                                             <i class="fa fa-question-circle" id="help_temp_base" data-trigger="hover"></i></th>
                                                         <th><?php echo _('Temperatura superior') ?> <?php echo _('(Cº)') ?>
                                                             <i class="fa fa-question-circle" id="help_temp_upper" data-trigger="hover"></i></th>
+                                                        <th><?php echo _('Fator de resposta Ky') ?>
+                                                            <i class="fa fa-question-circle" id="help_temp_upper" data-trigger="hover"></i></th>
+                                                        <th><?php echo _('Produtividade máxima') ?> <?php echo _('ton/ha') ?>
+                                                            <i class="fa fa-question-circle" id="help_temp_upper" data-trigger="hover"></i></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -293,6 +305,8 @@ $main = new principal('mapa');
                                                         <td id="gdlate"><input type="text" class="form-control" id="gda_late" name="gda_late" placeholder="Ex.: 2000"/></td>
                                                         <td id="tbase"><input type="text" class="form-control" id="temp_base" name="temp_base" placeholder="Ex.: 10.5"/></td>
                                                         <td id="tupper"><input type="text" class="form-control" id="temp_superior" name="temp_superior" placeholder="Ex.: 30.5"/></td>
+                                                        <td id="tupper"><input type="text" class="form-control" id="ky" name="ky" placeholder="Ex.: 1.2"/></td>
+                                                        <td id="tupper"><input type="text" class="form-control" id="produtividade_max" name="produtividade_max" placeholder="Ex.: 1200"/></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -317,20 +331,20 @@ $main = new principal('mapa');
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-md-12">
                     <fieldset>
                         <legend>
                             <i class="fa fa-sort-amount-desc"></i> <?php echo _("Solo"); ?>
                         </legend>
                         <!--                        <div class="container">
                                                     <div class="row">
-                                                        <div class="col-xs-3">
+                                                        <div class="col-md-3">
                                                             <div class="btn-group ">
                                                                 <input onclick="alterna_cultura()" id="sel_cultura" class="btn btn-success active" type="button" value="<?php echo _("Selecionar"); ?>"/>
                                                                 <input onclick="alterna_cultura()" id="add_cultura" class="btn btn-success" type="button" value="<?php echo _("Adicionar"); ?>"/>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xs-9">
+                                                        <div class="col-md-9">
                                                             <div id="mensagem_solo"></div>
                                                         </div>
                                                     </div>
@@ -338,7 +352,7 @@ $main = new principal('mapa');
                                                 <hr />-->
                         <div class="container">
                             <div  class="row">
-                                <div class="col-xs-4">
+                                <div class="col-md-4">
                                     <select multiple id="solos" name="solos" class="form-control" style="color: #414141">
                                         <option value="0" selected=""> <?php echo _('Selecione o tipo de solo') ?>... </option>
                                         <?php
@@ -346,57 +360,82 @@ $main = new principal('mapa');
                                         foreach ($solos as $solo) {
                                             ?>
                                             <option value="<?php echo $solo['id']; ?>">
-                                            <?php echo _("{$solo['tipo']}"); ?>
-                                        </option>
-                                        <?php
+                                                <?php echo _("{$solo['tipo']}"); ?>
+                                            </option>
+                                            <?php
                                         }
-                                    ?>
-                                </select>
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th><?php echo _('Vel. Infiltração Básica') ?></th>
+                                                    <th><?php echo _('Ponto de Murcha Permanente') ?></th>
+                                                    <th><?php echo _('Densidade') ?></th>
+                                                    <th><?php echo _('Capacidade de campo') ?></th>
+                                                    <th><?php echo _('Capacidade de água disponível') ?> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td id="vib">-</td>
+                                                    <td id="pmp">-</td>
+                                                    <td id="densidade">-</td>
+                                                    <td id="cc">-</td>
+                                                    <td id="cad">-</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="container">
-                        <div class="row">
-                            <div class="cols-lg-6 center-block" style="margin-top:10px">
-                                <input type="button" class="btn btn-success" onclick="salvar_solo()" value="<?php echo _("Salvar solo"); ?>">
+                        <div class="container">
+                            <div class="row">
+                                <div class="cols-lg-12 center-block" style="margin-top:10px">
+                                    <input type="button" class="btn btn-success" onclick="salvar_solo()" value="<?php echo _("Salvar solo"); ?>">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                </fieldset>
+                    </fieldset>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 center-block" style="margin-top:10px">
-                <input type="button" class="btn btn-large btn-success" onclick="acessa_pagina('resultados')" value="<?php echo _("Calcular resultados"); ?>">
-                &nbsp;<input type="button" class="btn btn-large btn-success" onclick="acessa_pagina('graficos')" value="<?php echo _("Visualizar Gráficos"); ?>">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 center-block" style="margin-top:10px">
+                    <input type="button" class="btn btn-large btn-success" onclick="acessa_pagina('resultados')" value="<?php echo _("Calcular resultados"); ?>">
+                    &nbsp;<input type="button" class="btn btn-large btn-success" onclick="acessa_pagina('graficos')" value="<?php echo _("Visualizar Gráficos"); ?>">
+                </div>
             </div>
         </div>
-    </div>
-    <script>
-        $(function() {
-            carrega_parametros();
-            initialize();
-            carregarPontos();
-            $("#fileuploader").uploadFile({
-                url: "configuracao.php",
-                fileName: "importar",
-                maxFileSize: "2MB",
-                maxFileCount: 1,
-                allowedTypes: "csv",
-                showFileCounter: false
+        <script>
+            $(function() {
+                carrega_parametros();
+                initialize();
+                carregarPontos();
+                $("#fileuploader").uploadFile({
+                    url: "configuracao.php",
+                    fileName: "importar",
+                    maxFileSize: "2MB",
+                    maxFileCount: 1,
+                    allowedTypes: "csv",
+                    showFileCounter: false
+                });
+                $("#div_datepicker").datepicker({
+                    onSelect: function(dateText, inst) {
+                        $("#data_plantio").val(dateText);
+                    },
+                    dateFormat: "dd/mm/yy"
+                });
+                $("#div_datepicker").datepicker('show');
+                
             });
-            $("#div_datepicker").datepicker({
-                onSelect: function(dateText, inst) {
-                    $("#data_plantio").val(dateText);
-                },
-                dateFormat: "dd/mm/yy"
-            });
-            $("#div_datepicker").datepicker('show');
-        });
 
-    </script>
-</body>
+        </script>
+    </body>
 </html>

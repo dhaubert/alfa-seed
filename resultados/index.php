@@ -77,7 +77,8 @@ $resultados = $main->busca_resultados($solo_id, $cultura_id, $estacao_id, $data_
                     </div>
                 </div>
             </div>
-            <?php die;
+            <?php
+            die;
         }
         ?>
 
@@ -99,27 +100,29 @@ $resultados = $main->busca_resultados($solo_id, $cultura_id, $estacao_id, $data_
         <hr/>
         <div class="container">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-lg-12">
                     <div class="table-responsive">
-                        <table class="table table-condensed"  id="tab_header_clone" style="display: none;">
+                        <table class=" table-condensed"  id="tab_header_clone" style="display: none;">
                             <thead id="resultados_header_clone">
                                 <tr id="resultados_header">
                                     <th  style="width: 95px"><?php echo _('Data') ?></th>
                                     <th  style="width: 60px" class="clima"><?php echo _('Temp. Ar') ?></th>
-                                    <th  style="width: 70px" class="clima"><?php echo _('Temp. Mínima') ?></th>
-                                    <th    style="width: 70px" class="clima"><?php echo _('Temp. Máxima') ?></th>
-                                    <th    style="width: 80px" class="clima"><?php echo _('Umidade') ?></th>
-                                    <th    style="width: 70px" class="clima"><?php echo _('Umidade Mínima') ?></th>
-                                    <th    style="width: 70px" class="clima"><?php echo _('Umidade Máxima') ?></th>
+                                    <th  style="width: 70px" class="clima"><?php echo _('Temp Mín.') ?></th>
+                                    <th    style="width: 70px" class="clima"><?php echo _('Temp. Máx.') ?></th>
+                                    <th    style="width: 65px" class="clima"><?php echo _('Umidade') ?></th>
+                                    <th    style="width: 70px" class="clima"><?php echo _('Umid. Mín.') ?></th>
+                                    <th    style="width: 70px" class="clima"><?php echo _('Umid. Máx.') ?></th>
                                     <th    style="width: 70px" class="clima"><?php echo _('Pressão') ?></th>
                                     <th    style="width: 65px" class="clima"><?php echo _('Vel. Vento') ?></th>
                                     <th    style="width: 80px" class="clima"><?php echo _('Radiação') ?></th>
                                     <th    style="width: 42px" class="clima"><?php echo _('Luz Solar') ?></th>
+                                    <th    style="width: 42px" class="clima"><?php echo _('Chuva Ef.') ?></th>
                                     <th    style="width: 130px"><?php echo _('Estágio') ?></th>
                                     <th    style="width: 88px"><?php echo _('GDA') ?></th>
                                     <th    style="width: 65px"><?php echo _('ETo') ?></th>
                                     <th    style="width: 56px"><?php echo _('Kc') ?></th>
                                     <th    style="width: 64px"><?php echo _('Etc') ?></th>
+                                    <th    style="width: 64px"><?php echo _('Irrig. req.') ?></th>
                                 </tr>
                             </thead>
                         </table>
@@ -132,19 +135,19 @@ $resultados = $main->busca_resultados($solo_id, $cultura_id, $estacao_id, $data_
                                     <th  style="width: 60px" class="clima"><?php echo _('Temp. Ar') ?>
                                         <br/><i class="fa fa-question-circle" id="tar" data-trigger="hover"></i>
                                     </th>
-                                    <th  style="width: 70px" class="clima"><?php echo _('Temp. Mínima') ?>
+                                    <th  style="width: 70px" class="clima"><?php echo _('Temp. Mín.') ?>
                                         <i class="fa fa-question-circle" id="tmin" data-trigger="hover"></i>
                                     </th>
-                                    <th  style="width: 70px" class="clima"><?php echo _('Temp. Máxima') ?>
+                                    <th  style="width: 70px" class="clima"><?php echo _('Temp. Máx.') ?>
                                         <i class="fa fa-question-circle" id="tmax" data-trigger="hover"></i>
                                     </th>
-                                    <th  style="width: 80px" class="clima"><?php echo _('Umidade') ?>
+                                    <th  style="width: 65px" class="clima"><?php echo _('Umidade') ?>
                                         <i class="fa fa-question-circle" id="umid" data-trigger="hover"></i>
                                     </th>
-                                    <th  style="width: 70px" class="clima"><?php echo _('Umidade Mínima') ?>
+                                    <th  style="width: 70px" class="clima"><?php echo _('Umid. Mín.') ?>
                                         <i class="fa fa-question-circle" id="umid_min" data-trigger="hover"></i>
                                     </th>
-                                    <th  style="width: 70px" class="clima"><?php echo _('Umidade Máxima') ?>
+                                    <th  style="width: 70px" class="clima"><?php echo _('Umid. Máx.') ?>
                                         <i class="fa fa-question-circle" id="umid_max" data-trigger="hover"></i>
                                     </th>
                                     <th  style="width: 70px" class="clima"><?php echo _('Pressão') ?>
@@ -158,6 +161,9 @@ $resultados = $main->busca_resultados($solo_id, $cultura_id, $estacao_id, $data_
                                     </th>
                                     <th  style="width: 42px" class="clima"><?php echo _('Luz Solar') ?>
                                         <i class="fa fa-question-circle" id="insolacao" data-trigger="hover"></i>
+                                    </th>
+                                    <th  style="width: 42px" class="clima"><?php echo _('Chuva ef.') ?>
+                                        <i class="fa fa-question-circle" id="chuva_ef" data-trigger="hover"></i>
                                     </th>
                                     <th  style="width: 130px"><?php echo _('Estágio') ?>
                                         <i class="fa fa-question-circle" id="estagio" data-trigger="hover"></i>
@@ -173,6 +179,9 @@ $resultados = $main->busca_resultados($solo_id, $cultura_id, $estacao_id, $data_
                                     </th>
                                     <th style="width: 64px"><?php echo _('Etc') ?>
                                         <i class="fa fa-question-circle" id="etc" data-trigger="hover" ></i>
+                                    </th>
+                                    <th style="width: 64px"><?php echo _('Irrig. Req.') ?>
+                                        <i class="fa fa-question-circle" id="irrig" data-trigger="hover" ></i>
                                     </th>
                                 </tr>
                             </thead>
@@ -190,11 +199,13 @@ $resultados = $main->busca_resultados($solo_id, $cultura_id, $estacao_id, $data_
                                         <td class="clima"><?php echo round($resultado['vento'], 2) ?></td>
                                         <td class="clima"><?php echo round($resultado['radiacao'], 2) ?></td>
                                         <td class="clima"><?php echo $resultado['insolacao'] ?></td>
+                                        <td class="clima"><?php echo $resultado['chuva_efetiva'] ?></td>
                                         <td><?php echo $main->busca_estagio($resultado['estagio']) ?></td>
                                         <td><?php echo $resultado['GD_acumulado'] ?></td>
                                         <td><?php echo round($resultado['eto'], 2) ?></td>
                                         <td><?php echo round($resultado['etc'] / $resultado['eto'], 2) ?></td>
                                         <td><?php echo round($resultado['etc'], 2) ?></td>
+                                        <td><?php echo round($resultado['irrigacao'], 2) ?></td>
                                     </tr>
 <?php } ?>
                             </tbody>

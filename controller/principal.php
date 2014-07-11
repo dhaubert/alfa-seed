@@ -1,7 +1,5 @@
 <?php
 
-//chdir('C:/xampp/htdocs/AlfaSeed/');
-
 include ("estacoes.php");
 include ("calculos.php");
 include ("culturas.php");
@@ -87,7 +85,6 @@ class principal {
         $arquivo = fopen('../js/mapas/pontos.json', 'w+');
         fwrite($arquivo, $json);
         fclose($arquivo);
-        //return $json;
     }
 
     function busca_estagio($estagio_alias) {
@@ -121,12 +118,16 @@ class principal {
 
     /* busca por dados das estacoes no formato json */
 
-    function get_json_dados_estacoes($estacao_id, $data_inicial, $data_final) {
+    function get_json_dados_estacoes($estacao_id, $data_inicial, $data_final = NULL) {
         $estacoes = new Estacoes();
         $dados_climaticos = $estacoes->busca_dados_por_periodo($estacao_id, $data_inicial, $data_final);
         return json_encode($dados_climaticos);
     }
-
+    function get_json_dados_recentes($estacao_id){
+        $estacoes = new Estacoes();
+        $dados = $estacoes->busca_dados_recentes($estacao_id);
+        return json_encode($dados);
+    }
     function baixa_dados($estacao_id, $data_inicial) { //baixa dados para a estacao, a partir da data inicial até o dia atual
         $estacoes = new Estacoes();
         $estacoes->baixa_dados_INMET($estacao_id, $data_inicial);
@@ -143,5 +144,22 @@ class principal {
         $dados = $calculo->calcula_resultados($medias, $cultura[0], $solo[0]);
         return $dados;
     }
+
+    function busca_eto() {
+        $estacoes = new Estacoes();
+        $lista_estacoes = $estacoes->get_estacoes();
+        foreach ($lista_estacoes as $estacao) {
+            $estacao_id = $estacao['estacao_id'];
+            $ultima_data = $estacoes->busca_ultimo_dado($estacao_id);
+            $ultima_data = $ultima_data['data'];
+            $medias = $estacoes->busca_medias_diarias($estacao_id, $ultima_data, $ultima_data);
+            $calculo = new Calculo();
+            $dados_eto = $calculo->calcula_eto($medias);
+            $dados[] = $dados_eto[0];
+        }
+        $dados = json_encode($dados);
+        return $dados;
+    }
+
 
 }

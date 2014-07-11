@@ -13,12 +13,18 @@ $data_final = date('Y-m-d');
 $resultados = $main->busca_resultados($solo_id, $cultura_id, $estacao_id, $data_inicial, $data_final);
 list($series_kc, $min_kc, $max_kc) = $main->serialize_kc($resultados, 'kc', 0);
 list($series_chuvas, $min_chuvas, $max_chuvas) = $main->serialize($resultados, 'chuva', 0);
+list($series_chuvas_ef, $min_chuvas_ef, $max_chuvas_ef) = $main->serialize($resultados, 'chuva_efetiva', 0);
 list($series_vento, $min_vento, $max_vento) = $main->serialize($resultados, 'vento', 0);
 list($series_temperatura, $min_temperatura, $max_temperatura) = $main->serialize($resultados, 'temperatura_ar', 0);
 list($series_umidade, $min_umidade, $max_umidade) = $main->serialize($resultados, 'umidade', 0);
 list($series_eto, $min_eto, $max_eto) = $main->serialize($resultados, 'eto', 0);
+list($series_etc, $min_etc, $max_etc) = $main->serialize($resultados, 'etc', 0);
+list($series_irrig, $min_irrig, $max_irrig) = $main->serialize($resultados, 'irrigacao', 0);
 list($series_gda, $min_gda, $max_gda) = $main->serialize_gda($resultados);
 list($series_raiz, $min_raiz, $max_raiz) = $main->serialize($resultados, 'prof_raiz', 0);
+//echo "<pre>";
+//print_r($series_raiz);
+//echo "</pre>";
 ?>
 <!doctype html>
 <html lang = "pt_BR">
@@ -115,15 +121,23 @@ list($series_raiz, $min_raiz, $max_raiz) = $main->serialize($resultados, 'prof_r
             </div>
             <div class="row ">
                 <div class="col-md-12">
+                    <div id="grafico_temperatura" ></div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row ">
+                <div class="col-md-12">
                     <div id="grafico_kc" ></div>
                 </div>
             </div> 
             <hr/>
             <div class="row ">
                 <div class="col-md-12">
-                    <div id="grafico_temperatura" ></div>
+                    <div id="grafico_irrig" ></div>
                 </div>
             </div> 
+            <hr/>
+            
 
         </div>
         <hr/>
@@ -142,7 +156,7 @@ list($series_raiz, $min_raiz, $max_raiz) = $main->serialize($resultados, 'prof_r
                                 '<?php echo _('Sábado') ?>']
                         }
                     });
-                    $('#grafico_raiz').highcharts({
+                    $('#grafico_kc').highcharts({
                         chart: {
                             zoomType: 'xy'
                         },
@@ -231,7 +245,7 @@ list($series_raiz, $min_raiz, $max_raiz) = $main->serialize($resultados, 'prof_r
 
                             }]
                     });
-                    $('#grafico_kc').highcharts({
+                    $('#grafico_raiz').highcharts({
                         chart: {
                             zoomType: 'xy'
                         },
@@ -388,7 +402,7 @@ list($series_raiz, $min_raiz, $max_raiz) = $main->serialize($resultados, 'prof_r
 //                             }, {// Secondary yAxis
 //                            gridLineWidth: 0,
 //                            title: {
-//                                text: '<?php // echo _('Evapotranspiração de referência')    ?>',
+//                                text: '<?php // echo _('Evapotranspiração de referência')          ?>',
 //                                style: {
 //                                    color: '#308E4B'
 //                                }
@@ -451,10 +465,10 @@ list($series_raiz, $min_raiz, $max_raiz) = $main->serialize($resultados, 'prof_r
                                 valueSuffix: ' %'
                             }
 //                        }, {
-//                            name: '<?php // echo _('Evapotranspiração de Referência (ETo)')    ?>',
+//                            name: '<?php // echo _('Evapotranspiração de Referência (ETo)')          ?>',
 //                            type: 'spline',
 //                            yAxis: 3,
-//                            data: [<?php // echo $series_eto;    ?>],
+//                            data: [<?php // echo $series_eto;          ?>],
 //                            color: '#308E4B',
 //                            marker: {
 //                                fillColor: "#FFFFFF", 
@@ -494,6 +508,57 @@ list($series_raiz, $min_raiz, $max_raiz) = $main->serialize($resultados, 'prof_r
                             tooltip: {
                                 valueSuffix: ' °C'
                             }
+                        }]
+                });
+                $('#grafico_irrig').highcharts({
+                    chart: {
+                        type: 'column',
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: '<?php echo _('Necessidade hídrica da cultura') ?>'
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        dateTimeLabelFormats: {// don't display the dummy year
+                            month: '%e. %b',
+                            year: '%b'
+                        },
+                        title: {
+                            text: '<?php echo _('Data') ?>'
+                        },
+                    },
+                    max: 25,
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        shared: true
+                    },
+                    series: [{
+                            title: '<?php echo _('Água')?>',
+                            name: '<?php echo _('Precipitações efetivas') ?>',
+                            color: '#308E4B',
+                            marker: {
+                                enabled: false,
+                            },
+                            tooltip: {
+                                valueSuffix: ' mm'
+                            },
+                            data: [<?php echo $series_chuvas_ef; ?>]
+                        }, {
+                            name: '<?php echo _('Irrigação Requerida') ?>',
+                            data: [<?php echo $series_irrig; ?>],
+                            tooltip: {
+                                valueSuffix: ' mm'
+                            },
+                        }, {
+                            color: Highcharts.getOptions().colors[3],
+                            name: '<?php echo _('Evapotranspiração da cultura') ?>',
+                            data: [<?php echo $series_etc; ?>],
+                            tooltip: {
+                                valueSuffix: ' mm'
+                            },
                         }]
                 });
             });

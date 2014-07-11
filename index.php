@@ -24,9 +24,6 @@
 
 
     <script src="js/jquery.uploadfile.min.js"></script>
-<!--        <script type="text/javascript"
-            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDLR4BikxQ8gpFOhyN2938LozV7i0qwbfI&sensor=TRUE">
-    </script>-->
 
     <title>Alfa Seed Software</title>
 

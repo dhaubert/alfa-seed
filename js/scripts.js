@@ -1,25 +1,25 @@
 $(function() {
     helpers();
 });
-function enviar_arquivo() {
-    alert('ajax');
-    var fileInput = $('#importar');
-    var file = fileInput.files[0];
-    var formData = new FormData();
-    formData.append('file', file);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../configuracao.php', true);
-    xhr.send(formData);
-    $.ajax({
-        type: 'POST',
-        data: formData,
-        url: '../controller/requisicoes_ajax.php',
-        enctype: 'multipart/form-data'
-    }).done(function(retorno) {
-        alert(retorno);
-    });
-
-}
+//function enviar_arquivo() {
+//    alert('ajax');
+//    var fileInput = $('#importar');
+//    var file = fileInput.files[0];
+//    var formData = new FormData();
+//    formData.append('file', file);
+//    var xhr = new XMLHttpRequest();
+//    xhr.open('POST', '../configuracao.php', true);
+//    xhr.send(formData);
+//    $.ajax({
+//        type: 'POST',
+//        data: formData,
+//        url: '../controller/requisicoes_ajax.php',
+//        enctype: 'multipart/form-data'
+//    }).done(function(retorno) {
+//        alert(retorno);
+//    });
+//
+//}
 function helpers() {
     $("#help_nome_cultura").popover({
         placement: 'bottom', // top, bottom, left or right
@@ -122,15 +122,25 @@ function helpers() {
         html: 'true',
         content: 'Radiação solar medida (kJ/m²)'
     });
+    $("#chuva_ef").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Chuva efetiva à disposição da planta (mm)'
+    });
     $("#insolacao").popover({
         placement: 'top', // top, top, left or right
         html: 'true',
-        content: 'Número de horas de luz do sol'
+        content: 'Número de horas de luz do sol (h)'
     });
     $("#estagio").popover({
         placement: 'top', // top, top, left or right
         html: 'true',
         content: 'Estágio de desenvolvimento da cultura'
+    });
+    $("#irrig").popover({
+        placement: 'top', // top, top, left or right
+        html: 'true',
+        content: 'Irrigação requerida para o dia (mm)'
     });
     $("#gda").popover({
         placement: 'top', // top, top, left or right
@@ -328,10 +338,10 @@ function atualiza_mapa(estacao_id) {
     });
 }
 function salvar_solo(){
-    var solo_id = $('#resultados_solo').val();
+    var solo_id = $('#solos option:selected').val()
     $('#resultados_solo').val(solo_id);
 }
-function atualiza_tabela(kc_ini, kc_mid, kc_end, gd_ini, gd_mid, gd_dev, gd_late, tbase, tupper) {
+function atualiza_tabela(kc_ini, kc_mid, kc_end, gd_ini, gd_mid, gd_dev, gd_late, tbase, tupper, ky, prod) {
     $('#kcini').text(kc_ini);
     $('#kcmid').text(kc_mid);
     $('#kcend').text(kc_end);
@@ -341,5 +351,7 @@ function atualiza_tabela(kc_ini, kc_mid, kc_end, gd_ini, gd_mid, gd_dev, gd_late
     $('#gdlate').text(gd_late);
     $('#tbase').text(tbase);
     $('#tupper').text(tupper);
+    $('#ky').text(ky);
+    $('#prod').text(prod);
 }
 
