@@ -57,10 +57,10 @@ class Estacoes {
         $dados_estacoes = new dados_estacoes();
         $estacoes = $dados_estacoes->lista_estacoes_INMET();
         foreach ($estacoes as $estacao) { //percorre estações
-            for ($i = 10; $i > 0; $i--) { //percorre datas
-                $data_BR = date('d/m/Y', strtotime("-$i days"));
+//            for ($i = 10; $i > 0; $i--) { //percorre datas
+                $data_BR = date('d/m/Y', strtotime("-10 days"));
                 $data_BR_final = date('d/m/Y');
-                $data = date('Y-m-d', strtotime("-$i days"));
+                $data = date('Y-m-d', strtotime("-10 days"));
                 $data_final = date('Y-m-d');
                 $estacao_id = $estacao['estacao_id'];
                 $dados = $this->busca_dados_por_periodo($estacao_id, $data, $data_final);
@@ -71,7 +71,7 @@ class Estacoes {
 //                else{
 //                    echo "Estação <{$estacao['estacao_id']}> está atualizada para o dia $data (".count($dados)." dados) <br/>";
 //                }
-            }
+//            }
 //            $data = date('d/m/Y');
 //            $this->baixa_dados_INMET($estacao_id, $data, $data); //baixa para hoje
         }
