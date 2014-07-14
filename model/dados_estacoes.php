@@ -47,6 +47,7 @@ class dados_estacoes {
                 "SELECT
                     de.estacao_id,
                     e.nome AS estacao,
+                    e.municipio,
                     e.latitude,
                     e.altitude,
                     de.data,
@@ -79,6 +80,8 @@ class dados_estacoes {
                 de.data, de.hora";  
         $result = mysql_query($sql);
         while($estacao = mysql_fetch_assoc($result)){
+            $estacao['municipio'] = utf8_encode($estacao['municipio']);
+            $estacao['estacao'] = utf8_encode($estacao['estacao']);
             $dados[] = $estacao;
         } 
         return $dados;

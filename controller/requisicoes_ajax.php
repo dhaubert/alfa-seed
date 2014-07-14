@@ -1,6 +1,6 @@
 <?php
 
-//$_POST['request'] = 'busca_eto';
+$_POST['request'] = 'busca_eto';
 switch ($_POST['request']) {
     case 'salvar_clima_inmet': {
             include_once ('principal.php');
@@ -30,7 +30,7 @@ switch ($_POST['request']) {
             include_once ('principal.php');
             $main = new principal();
             $dados = $main->busca_eto();
-            $dados = array('estacao_id'=> 'A001', 'latitude' => '-29.500');
+//            $dados = array('estacao_id'=> 'A001', 'latitude' => '-29.500');
             echo json_encode($dados);
         die;
     case 'busca_dados_recentes':
