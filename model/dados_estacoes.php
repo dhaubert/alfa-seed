@@ -50,6 +50,7 @@ class dados_estacoes {
                     e.municipio,
                     e.latitude,
                     e.altitude,
+                    e.longitude,
                     de.data,
                     COUNT(*) AS numero_registros,
                     COUNT(DISTINCT de.data) AS datas,
