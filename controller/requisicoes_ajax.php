@@ -31,7 +31,7 @@ switch ($_POST['request']) {
             $main = new principal();
             $dados = $main->busca_eto();
             $dados = array('estacao_id'=> 'A001', 'latitude' => '-29.500');
-            echo $dados;
+            echo json_encode($dados);
         die;
     case 'busca_dados_recentes':
             include_once ('principal.php');

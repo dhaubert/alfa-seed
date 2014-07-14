@@ -157,7 +157,6 @@ class principal {
             $dados_eto = $calculo->calcula_eto($medias);
             $dados[] = $dados_eto[0];
         }
-        $dados = json_encode($dados);
         return $dados;
     }
 
